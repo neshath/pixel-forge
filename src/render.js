@@ -193,7 +193,7 @@ export function drawEntity(c, e, p = palettes.forest, time = 0, options = {}) {
   if(e.type==='prop'){drawGardenProp(c,e,time);return;}
   if (e.visible === false || e.dead) return;
   const custom = options.customSprite || options.project?.sprite;
-  const sprite = e.spriteId === 'custom' || e.type === 'custom'
+  const sprite = e.spriteId === 'custom'
     ? custom
     : options.assetMap?.get(e.spriteId) || options.assets?.find(a => a.id === e.spriteId);
   const valid = sprite?.size > 0 && sprite.frames?.length > 0;

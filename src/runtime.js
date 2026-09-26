@@ -12,7 +12,7 @@ export class Runtime {
     this.project=projectData?clone(projectData):undefined;
     this.score=0;this.elapsed=0;this.deaths=0;this.lives=3;this.keys=new Set();this.inventory={};
     this.paused=false;this.won=false;this.accumulator=0;this.sequence=0;this.eventDepth=0;
-    this.notifications=[];this.emit=null;this.audio=null;this.audioReady=false;this.currentMusic=null;this.activeAudio=new Set();this.muted=false;this.sceneStates=new Map();this.loadScene(clone(scene),false);
+    this.notifications=[];this.emit=null;this.audio=null;this.audioReady=false;this.currentMusic=null;this.activeAudio=new Set();this.muted=false;this.sceneStates=new Map();this.checkpointState=null;this.checkpointScore=this.score;this.checkpointInventory={};this.checkpointKeys=[];this.loadScene(clone(scene),false);
   }
   prepareEntity(e) {
     e.w=runtimeNumber(e.w,12);e.h=runtimeNumber(e.h,16);e.speed=runtimeNumber(e.speed,e.type==='player'?145:35);
@@ -58,25 +58,30 @@ export class Runtime {
     }
     return true;
   }
-  setMuted(value){this.muted=Boolean(value);for(const player of this.activeAudio)player.muted=this.muted;}
+  setMuted(value){this.muted=Boolean(value);if(this.currentMusic)this.currentMusic.muted=this.muted;for(const player of this.activeAudio)player.muted=this.muted;}
   async playAudio(value){
     const asset=this.findAudio(value);
     if(!asset||this.project?.settings?.sound===false)return false;
+    let player=null;
     try{
       if(!this.audioReady)await this.unlockAudio();
-      const player=new Audio(asset.data);
+      player=new Audio(asset.data);
       player.preload='auto';
       player.volume=Math.max(0,Math.min(1,runtimeNumber(this.project?.settings?.volume,.25)));player.muted=this.muted;
       player.loop=Boolean(asset.loop);
+      this.activeAudio.add(player);
+      player.onended=()=>{this.activeAudio.delete(player);if(this.currentMusic===player)this.currentMusic=null;try{player.src='';}catch{}};
       if(asset.loop){
         if(this.currentMusic&&this.currentMusic!==player){this.currentMusic.pause();this.currentMusic.currentTime=0;this.activeAudio.delete(this.currentMusic);this.currentMusic.src='';}
         this.currentMusic=player;
       }
       await player.play();
       return true;
-    }catch{this.notify('audio-error',{sound:value});return false;}
+    }catch{if(player){this.activeAudio.delete(player);if(this.currentMusic===player)this.currentMusic=null;try{player.pause();player.src='';}catch{}}this.notify('audio-error',{sound:value});return false;}
   }
   stopMusic(){if(this.currentMusic){this.currentMusic.pause();this.currentMusic.currentTime=0;this.activeAudio.delete(this.currentMusic);this.currentMusic.src='';this.currentMusic=null;}}
+  stopAllAudio(){for(const player of this.activeAudio){try{player.pause();player.currentTime=0;player.src='';}catch{}}this.activeAudio.clear();this.currentMusic=null;}
+  dispose(){this.stopAllAudio();try{this.audio?.close?.()}catch{}this.audio=null;this.audioReady=false;}
   async resumeAudio(){if(this.audio?.state==='suspended'){try{await this.audio.resume()}catch{}}}
   sceneMusicAsset(){
     const id=String(this.scene?.musicId||'').trim();
@@ -141,13 +146,22 @@ export class Runtime {
     if(!id){this.complete();return true;}
     const template=this.project?.scenes?.find(s=>s.id===id);
     if(!template||!template.entities.some(e=>e.type==='player')){this.notify('message',{text:`Scene unavailable or missing player spawn: ${id}`});return false;}
-    this.sceneStates.set(this.scene.id,clone(this.scene));this.loadScene(clone(this.sceneStates.get(id)||template));
+    this.sceneStates.set(this.scene.id,clone(this.scene));const next=clone(this.sceneStates.get(id)||template);this.loadScene(next);this.checkpointState=clone(next);this.checkpointScore=this.score;this.checkpointInventory=clone(this.inventory);this.checkpointKeys=[...this.keys];
     this.notify('scene',{sceneId:id});return true;
   }
   complete() {const scene=this.scene;this.dispatch('complete',scene.id);if(this.scene===scene){this.won=true;this.notify('complete',{sceneId:scene.id});}}
-  setCheckpoint(e) {this.spawn={x:e.x,y:e.y};if(!e.active){e.active=true;this.dispatch('checkpoint',e.id);this.notify('checkpoint',{sceneId:this.scene.id,x:e.x,y:e.y});}}
+  setCheckpoint(e) {
+    this.spawn={x:e.x,y:e.y};
+    const activate=e.type==='player'||!e.active;
+    if(e.type!=='player'&&!e.active){e.active=true;this.dispatch('checkpoint',e.id);this.notify('checkpoint',{sceneId:this.scene.id,x:e.x,y:e.y});}
+    if(!activate)return;
+    this.checkpointState=clone(this.scene);this.sceneStates.set(this.scene.id,clone(this.scene));
+    this.checkpointScore=this.score;this.checkpointInventory=clone(this.inventory);this.checkpointKeys=[...this.keys];
+  }
   respawn() {
     const scene=this.scene;this.deaths++;this.lives=Math.max(0,this.lives-1);this.dispatch('death',this.player.id);if(this.scene!==scene)return;
+    const snapshot=this.checkpointState?clone(this.checkpointState):null;
+    if(snapshot){this.loadScene(snapshot,false);this.score=this.checkpointScore??this.score;this.inventory=clone(this.checkpointInventory||this.inventory);this.keys=new Set(this.checkpointKeys||[...this.keys]);}
     this.player.x=this.spawn.x;this.player.y=this.spawn.y;this.health=this.maxHealth;this.vx=0;this.vy=0;this.invincible=1.5;this.contacts.clear();
     this.notify('death',{deaths:this.deaths,lives:this.lives});
   }

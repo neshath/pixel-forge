@@ -53,19 +53,19 @@ const canvas=document.getElementById('game'), context=canvas.getContext('2d');
 canvas.width=scene.camera.w||384;canvas.height=scene.camera.h||216;context.imageSmoothingEnabled=false;
 let runtime,started=false,last=0,padPause=false,padRestart=false,muted=false;
 const keys=new Set(),overlay=document.getElementById('start'),status=document.getElementById('status');
-function restart(){runtime=new Runtime(scene,project);if(muted)runtime.setMuted?.(true);}
+async function restart(){if(runtime)runtime.dispose?.();runtime=new Runtime(scene,project);if(runtime.unlockAudio)await runtime.unlockAudio();if(runtime.audio?.resume)await runtime.audio.resume();runtime.setMuted?.(muted);}
 function pause(){if(runtime)runtime.paused=!runtime.paused;}
-function setMuted(value){muted=value;const button=document.getElementById('mute');button.textContent=muted?'🔇 Unmute':'🔊 Mute';button.setAttribute('aria-pressed',String(muted));if(runtime)runtime.setMuted?.(muted);}
-async function start(){try{restart();if(runtime.unlockAudio)await runtime.unlockAudio();if(runtime.audio?.resume)await runtime.audio.resume();started=true;overlay.hidden=true;canvas.focus();}catch(error){status.textContent=error.message;}}
+function setMuted(value){muted=Boolean(value);const button=document.getElementById('mute');button.textContent=muted?'🔇 Unmute':'🔊 Mute';button.setAttribute('aria-pressed',String(muted));if(runtime)runtime.setMuted?.(muted);}
+async function start(){try{await restart();started=true;overlay.hidden=true;canvas.focus();}catch(error){status.textContent=error.message;}}
 document.getElementById('begin').onclick=start;
 document.getElementById('pause').onclick=pause;
-document.getElementById('restart').onclick=()=>{if(started)restart();};
+document.getElementById('restart').onclick=()=>{if(started)void restart();};
 document.getElementById('mute').onclick=()=>setMuted(!muted);
 const normalize=key=>key.length===1?key.toLowerCase():key;
-addEventListener('keydown',event=>{const key=normalize(event.key);if([' ','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Escape'].includes(key))event.preventDefault();keys.add(key);if(!event.repeat){if(key==='Escape'||key==='p')pause();if(key==='r'&&started)restart();}});
+addEventListener('keydown',event=>{const key=normalize(event.key);if([' ','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Escape'].includes(key))event.preventDefault();keys.add(key);if(!event.repeat){if(key==='Escape'||key==='p')pause();if(key==='r'&&started)void restart();}});
 addEventListener('keyup',event=>keys.delete(normalize(event.key)));
 addEventListener('blur',()=>{keys.clear();if(runtime)runtime.paused=true;});
-function frame(now){const dt=Math.min((now-last)/1000||0,1/30);last=now;if(started){const input=new Set(keys);const pad=navigator.getGamepads?.()?.[0];if(pad){if(pad.axes[0]<-.2||pad.buttons[14]?.pressed)input.add('ArrowLeft');if(pad.axes[0]>.2||pad.buttons[15]?.pressed)input.add('ArrowRight');if(pad.buttons[0]?.pressed)input.add(' ');if(pad.buttons[2]?.pressed)input.add('x');const p=!!pad.buttons[9]?.pressed,r=!!pad.buttons[8]?.pressed;if(p&&!padPause)pause();if(r&&!padRestart)restart();padPause=p;padRestart=r;}else{padPause=false;padRestart=false;}runtime.update(dt,input);runtime.render(context,canvas.width,canvas.height);}requestAnimationFrame(frame);}requestAnimationFrame(frame);
+function frame(now){const dt=Math.min((now-last)/1000||0,1/30);last=now;if(started){const input=new Set(keys);const pad=navigator.getGamepads?.()?.[0];if(pad){if(pad.axes[0]<-.2||pad.buttons[14]?.pressed)input.add('ArrowLeft');if(pad.axes[0]>.2||pad.buttons[15]?.pressed)input.add('ArrowRight');if(pad.buttons[0]?.pressed)input.add(' ');if(pad.buttons[2]?.pressed)input.add('x');const p=!!pad.buttons[9]?.pressed,r=!!pad.buttons[8]?.pressed;if(p&&!padPause)pause();if(r&&!padRestart)void restart();padPause=p;padRestart=r;}else{padPause=false;padRestart=false;}runtime.update(dt,input);runtime.render(context,canvas.width,canvas.height);}requestAnimationFrame(frame);}requestAnimationFrame(frame);
 `;
   // Escape literal HTML end tags in trusted app sources as well as project data.
   const script=('(()=>{\nconst __modules=Object.create(null);\n'+[...modules.values()].join('\n')+boot+'\n})();').replace(/<\/script/gi,'<\\/script');
