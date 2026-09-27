@@ -52,7 +52,7 @@ const pixelForge = {
 | **Sprites** | Draw 8/16/24/32/64 px sprites, edit palettes, duplicate frames, set timing, use onion skinning, preview loop/ping-pong/one-shot animation, and import/export PNG sheets. |
 | **Audio v1** | Import sound effects and music, preview them, toggle looping per asset, and delete assets with undo support. |
 | **Logic** | Create visual event rules for switches, doors, dialogue, scenes, camera changes, sounds, messages, animation, items, checkpoints, and boss phases. |
-| **Projects** | Save and reopen portable `.pixel.json` projects, recover browser autosaves, browse versions, manage folders, and export standalone HTML games. |
+| **Projects** | Save and reopen portable `.pixel.json` projects, recover browser autosaves, keep large audio payloads in IndexedDB, browse versions, manage folders, and export standalone HTML games. |
 | **Exchange** | Work with source-included local packages, author/license/source metadata, editable forks, attribution, recoverable local libraries, and read-only HTTPS catalogs. |
 | **Editor feel** | Collapsible and resizable panels, persistent layout settings, keyboard shortcuts, classic Pixel Forge skin, and optional Pixel Playground skin. |
 
