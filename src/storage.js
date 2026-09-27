@@ -160,12 +160,11 @@ export class ProjectStore {
     this._commit(state);return clean(r.project);
   }
   async loadLatestAsync(){
-    const state=this._read(),raw=this.storage.getItem(LEGACY_KEY);
+    const raw=this.storage.getItem(LEGACY_KEY);
     if(raw!==null){
-      const p=extended(JSON.parse(raw));
-      const current=state.projects.find(r=>r.project.id===state.latest)?.project;
-      if(!current||JSON.stringify(clean(p))!==JSON.stringify(clean(current))||(!current.audioRevision&&p.audio)){
-        await this.saveAsync(p);
+      const parsed=JSON.parse(raw);
+      if(!parsed.audioRevision){
+        await this.saveAsync(extended(parsed));
       }
     }
     const latest=this._read().latest;
