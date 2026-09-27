@@ -6,7 +6,7 @@ pkgdesc='Local retro game creation studio'
 arch=('x86_64' 'aarch64')
 url='https://github.com/neshath/pixel-forge'
 license=('MIT')
-depends=('webkit2gtk-4.1')
+depends=('webkit2gtk-4.1' 'gtk3')
 makedepends=('git' 'nodejs' 'npm' 'rust' 'pkgconf' 'patchelf')
 _commit='31186c653db9a9e2d6a77c8a3034c5f9b4c88eac'
 source=("git+https://github.com/neshath/pixel-forge.git#commit=${_commit}")
