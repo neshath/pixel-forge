@@ -1,3 +1,12 @@
+test('audio autosave payload can be separated from localStorage metadata',()=>{
+  const audio={effects:[{id:'fx',name:'Click',mime:'audio/wav',bytes:4,data:'data:audio/wav;base64,AAAA',loop:false}],music:[{id:'m',name:'Theme',mime:'audio/mpeg',bytes:4,data:'data:audio/mpeg;base64,BBBB',loop:true}]};
+  const metadata=stripAudioData(audio);
+  assert.deepEqual(metadata.effects,[{id:'fx',name:'Click',mime:'audio/wav',bytes:4,loop:false}]);
+  assert.deepEqual(metadata.music,[{id:'m',name:'Theme',mime:'audio/mpeg',bytes:4,loop:true}]);
+  assert.equal('data' in metadata.effects[0],false);
+  assert.equal('data' in metadata.music[0],false);
+  assert.equal(audio.effects[0].data,'data:audio/wav;base64,AAAA');
+});
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -6,6 +15,7 @@ import {templateProject} from '../src/templates.js';
 import {gardenPacks} from '../src/garden.js';
 import {project,makeScene,initializeScene,entity,createRule,clone} from '../src/model.js';
 import {ProjectStore,STORAGE_KEY,LEGACY_KEY} from '../src/storage.js';
+import {stripAudioData} from '../src/audio-storage.js';
 import {buildGameHTML,buildProjectPackage} from '../src/export.js';
 import {Runtime} from '../src/runtime.js';
 
