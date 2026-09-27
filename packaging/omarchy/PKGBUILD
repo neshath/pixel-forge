@@ -1,0 +1,27 @@
+# Maintainer: Pixel Forge contributors
+pkgname=pixel-forge
+pkgver=0.1.0
+pkgrel=1
+pkgdesc='Local retro game creation studio'
+arch=('x86_64' 'aarch64')
+url='https://github.com/neshath/pixel-forge'
+license=('MIT')
+depends=('webkit2gtk-4.1')
+makedepends=('git' 'nodejs' 'npm' 'rust' 'pkgconf' 'patchelf')
+_commit='31186c653db9a9e2d6a77c8a3034c5f9b4c88eac'
+source=("git+https://github.com/neshath/pixel-forge.git#commit=${_commit}")
+sha256sums=('SKIP')
+
+build() {
+  cd "${srcdir}/pixel-forge"
+  npm ci --ignore-scripts --no-audit --no-fund --include=dev
+  npm run desktop:build -- --no-bundle
+}
+
+package() {
+  cd "${srcdir}/pixel-forge"
+  install -Dm755 src-tauri/target/release/pixel-forge "${pkgdir}/usr/bin/pixel-forge"
+  install -Dm644 packaging/pixel-forge.desktop "${pkgdir}/usr/share/applications/pixel-forge.desktop"
+  install -Dm644 src-tauri/icons/icon.png "${pkgdir}/usr/share/icons/hicolor/256x256/apps/pixel-forge.png"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
