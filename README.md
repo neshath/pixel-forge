@@ -36,7 +36,7 @@ const pixelForge = {
   workflow: ["Draw", "Place", "Configure", "Playtest", "Export"],
   storage: "Local-first · portable .pixel.json projects",
   style: "Tactile 1990s workstation with original pixel motifs",
-  currentFocus: "Audio reliability and Omarchy validation",
+  currentFocus: "Omarchy package validation and community review",
   funFact: "Every visible tool is meant to do something."
 };
 ```
@@ -93,7 +93,7 @@ The first audio slice is deliberately small and portable:
 - Play audio during editor playtests and in exported standalone HTML games.
 - Mute or unmute all active and future runtime audio from the gameplay screen.
 - Delete assets with undo support.
-- Store audio inside the project JSON for portability.
+- Store audio inside the portable `.pixel.json` project for portability; browser autosave keeps large audio payloads in IndexedDB instead of localStorage.
 
 Limits for this first slice:
 
@@ -180,7 +180,7 @@ Run the automated suite:
 npm test
 ```
 
-The current suite contains **65 automated tests** covering:
+The automated suite covers:
 
 - Project round trips and extended validation.
 - Invalid file rejection and storage recovery.
@@ -220,6 +220,12 @@ tests/                  model, runtime, storage, export, platform, marketplace, 
 7. Expand beginner mode, accessibility, guided tutorials, safer destructive actions, and child-friendly workflows.
 
 Pixel Forge is ready for experimentation, prototyping, and early community review. It is not yet a complete commercial-grade game engine or online publishing platform.
+
+## Omarchy community package
+
+An initial Arch/Omarchy package candidate is included under `packaging/omarchy/`, pinned to the verified `main` commit. It is ready for community testing and review; real Omarchy/Hyprland installation testing and upstream package-repository review are still required before describing the package as officially supported.
+
+See [`docs/OMARCHY-CONTRIBUTION.md`](docs/OMARCHY-CONTRIBUTION.md).
 
 ## License
 
