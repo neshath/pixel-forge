@@ -13,6 +13,7 @@ jobs:
     env:
       PIXEL_FORGE_SHA: 51c724fc37bba733afe8811c846eed552fccb655
       OMARCHY_ISO_URL: https://iso.omarchy.org/omarchy-4.0.4.iso
+
     steps:
       - name: Check out Pixel Forge
         uses: actions/checkout@v4
@@ -21,7 +22,7 @@ jobs:
         run: |
           set -euxo pipefail
           sudo apt-get update
-          sudo apt-get install -y             curl             git             imagemagick             openssh-client             ovmf             qemu-system-x86             qemu-utils             socat             tesseract-ocr             tesseract-ocr-eng
+          sudo apt-get install -y curl git imagemagick openssh-client ovmf qemu-system-x86 qemu-utils socat tesseract-ocr tesseract-ocr-eng
           if command -v convert >/dev/null && ! command -v magick >/dev/null; then
             sudo ln -sf "$(command -v convert)" /usr/local/bin/magick
           fi
@@ -35,7 +36,6 @@ jobs:
           test -e /dev/kvm
           sudo chmod 666 /dev/kvm
           qemu-system-x86_64 --version
-          tesseract --version | head -1
 
       - name: Download and verify Omarchy 4.0.4 ISO
         run: |
@@ -52,11 +52,11 @@ jobs:
           git clone --depth 1 --branch quattro https://github.com/omacom/omarchy-iso.git "$RUNNER_TEMP/omarchy-iso-repo"
           cd "$RUNNER_TEMP/omarchy-iso-repo"
           chmod +x bin/omarchy-iso-test
-          # The upstream harness installs its host-side QEMU dependencies with
+
+          # omarchy-iso-test normally installs host-side dependencies through
           # Omarchy's package helper. GitHub-hosted Ubuntu already has them via apt.
           sudo tee /usr/local/bin/omarchy-pkg-add >/dev/null <<'EOF'
           #!/bin/bash
-          set -e
           exit 0
           EOF
           sudo chmod +x /usr/local/bin/omarchy-pkg-add
@@ -67,10 +67,11 @@ jobs:
           path = Path("bin/omarchy-iso-test")
           text = path.read_text()
           anchor = '  log "Installed system is up. Saving base image."'
-          injection = r'''  if [[ -n ${PIXEL_FORGE_INSTALL:-} ]]; then
+          injection = '''  if [[ -n \${PIXEL_FORGE_INSTALL:-} ]]; then
               log "Installing Pixel Forge into the Omarchy base image"
-              ssh_guest "echo \$GUEST_PASSWORD | sudo -S pacman -S --noconfirm --needed base-devel git curl nodejs npm rust webkit2gtk-4.1 gtk3 pkgconf patchelf"
-              ssh_guest "rm -rf /tmp/pixel-forge-build && mkdir -p /tmp/pixel-forge-build && curl -fsSL -o /tmp/pixel-forge-build/PKGBUILD https://raw.githubusercontent.com/neshath/pixel-forge/test/omarchy-quattro-runtime/packaging/omarchy/PKGBUILD && cd /tmp/pixel-forge-build && makepkg --noconfirm -p PKGBUILD && pkg=\$(ls pixel-forge-0.1.0-1-*.pkg.tar.* | head -1) && echo \$GUEST_PASSWORD | sudo -S pacman -U --noconfirm \"\$pkg\""
+              ssh_guest "echo \${GUEST_PASSWORD} | sudo -S pacman -S --noconfirm --needed base-devel git curl nodejs npm rust webkit2gtk-4.1 gtk3 pkgconf patchelf"
+              ssh_guest "rm -rf /tmp/pixel-forge-build && mkdir -p /tmp/pixel-forge-build && curl -fsSL -o /tmp/pixel-forge-build/PKGBUILD https://raw.githubusercontent.com/neshath/pixel-forge/\${PIXEL_FORGE_SHA}/packaging/omarchy/PKGBUILD && cd /tmp/pixel-forge-build && makepkg --noconfirm -p PKGBUILD"
+              ssh_guest "pkg=\$(ls /tmp/pixel-forge-build/pixel-forge-0.1.0-1-*.pkg.tar.* | head -1) && echo \${GUEST_PASSWORD} | sudo -S pacman -U --noconfirm \"\$pkg\""
           fi
 
   log "Installed system is up. Saving base image."'''
@@ -85,7 +86,6 @@ jobs:
         run: |
           set -euxo pipefail
 
-          mkdir -p "$RUNNER_TEMP/omarchy-tests/test/acceptance.d"
           git clone --depth 1 --branch quattro https://github.com/omacom/omarchy.git "$RUNNER_TEMP/omarchy-tests"
 
           cat > "$RUNNER_TEMP/omarchy-tests/test/acceptance.d/pixel-forge-test.sh" <<'EOF'
@@ -105,17 +105,12 @@ jobs:
             fail "Pixel Forge package is installed"
           fi
 
-          if [[ -x /usr/bin/pixel-forge ]]; then
-            pass "Pixel Forge executable is present at /usr/bin/pixel-forge"
-          else
-            fail "Pixel Forge executable is present at /usr/bin/pixel-forge"
-          fi
+          [[ -x /usr/bin/pixel-forge ]] || fail "Pixel Forge executable is present"
+          pass "Pixel Forge executable is present at /usr/bin/pixel-forge"
 
           launch_app 'env GDK_BACKEND=wayland /usr/bin/pixel-forge >/tmp/pixel-forge.log 2>&1'
 
-          if wait_until "Pixel Forge opens a Hyprland window" 45 window_present "pixel-forge"; then
-            :
-          else
+          if ! wait_until "Pixel Forge opens a Hyprland window" 45 window_present "pixel-forge"; then
             cat /tmp/pixel-forge.log >&2 || true
             exit 1
           fi
@@ -124,19 +119,20 @@ jobs:
 
           echo "$client" | jq -e '(.xwayland // false) == false' >/dev/null ||
             fail "Pixel Forge is a native Wayland client"
+          pass "Pixel Forge is a native Wayland client"
 
           echo "$client" | jq -e '.title == "Pixel Forge — Retro Game Studio"' >/dev/null ||
             fail "Pixel Forge window title is correct"
+          pass "Pixel Forge window title is correct"
 
           pid="$(echo "$client" | jq -r '.pid // empty')"
-          [[ -n "$pid" ]] ||
-            fail "Hyprland exposes a Pixel Forge process id"
-
-          kill -0 "$pid" 2>/dev/null ||
-            fail "Pixel Forge process remains alive after window mapping"
+          [[ -n "$pid" ]] || fail "Hyprland exposes a Pixel Forge process id"
+          kill -0 "$pid" 2>/dev/null || fail "Pixel Forge remains alive after mapping"
+          pass "Pixel Forge remains alive after mapping"
 
           grep -zq "WAYLAND_DISPLAY=" "/proc/$pid/environ" ||
             fail "Pixel Forge inherited a Wayland display"
+          pass "Pixel Forge inherited a Wayland display"
 
           screenshot "success-pixel-forge-wayland-window"
 
