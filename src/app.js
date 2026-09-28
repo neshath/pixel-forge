@@ -103,7 +103,7 @@ async function welcome(){
    resume.title=welcomeSavedProject?'Resume '+welcomeSavedProject.name:'No local autosave available';
   }
  }catch(e){welcomeSavedProject=null;note(e.message||'Could not restore the last autosave.',true);}
- $('#welcome').showModal(); requestAnimationFrame(renderWelcomeArtwork); requestAnimationFrame(renderWelcomeArtwork);
+ $('#welcome').showModal(); requestAnimationFrame(renderWelcomeArtwork);
 
 }
 
