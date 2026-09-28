@@ -110,11 +110,10 @@ async function welcome(){
 $('#newProject').onclick=()=>{if(!p.sample&&!confirm('Start a new empty project? Save your current project first if needed.'))return;const name=prompt('Project name','My first world');if(name===null)return;const next=project();next.name=name.trim()||'Untitled project';loadProject(next);note('Empty project created. Paint terrain, then place a player in Entities.')};
 $('#resumeProject').onclick=()=>{if(!welcomeSavedProject){note('No local autosave is available.',true);return;}try{loadProject(welcomeSavedProject);note('Restored your last local autosave.')}catch(e){note(e.message,true)}};
 const openExternal=url=>window.open(url,'_blank','noopener,noreferrer');
-$('#manualLink').onclick=()=>startTour();
+$('#manualLink').onclick=()=>openExternal('https://github.com/neshath/pixel-forge/blob/main/README.md');
 $('#docsLink').onclick=()=>openExternal('https://github.com/neshath/pixel-forge/blob/main/README.md');
 $('#releaseNotesLink').onclick=()=>openExternal('https://github.com/neshath/pixel-forge/releases');
 $('#githubLink').onclick=()=>openExternal('https://github.com/neshath/pixel-forge');
-$('#creditsLink').onclick=()=>alert('Pixel Forge\nMIT licensed open-source game creation studio.\nBuilt for Omarchy.');
 
 document.querySelectorAll('[data-welcome-mode]').forEach(b=>b.onclick=()=>{if($('#welcome').open)$('#welcome').close();setMode(b.dataset.welcomeMode);note(b.dataset.welcomeMode==='sprite'?'Sprite workshop opened from welcome screen.':'World editor opened from welcome screen.')});
 document.querySelectorAll('[data-welcome-tab]').forEach(b=>b.onclick=()=>{if($('#welcome').open)$('#welcome').close();setTab(b.dataset.welcomeTab);note(b.dataset.welcomeTab+' workspace opened from welcome screen.')});
