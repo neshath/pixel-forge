@@ -347,3 +347,24 @@ button.active{background:#70420a;color:#f6d9a0;border-color:#d4870a}
   .welcome-brand{left:22px;bottom:34px;font-size:42px}
   .welcome-tagline{left:25px;bottom:18px}
 }
+
+.welcome-heading-spaced{
+  margin-top:18px;
+  padding-top:15px;
+  border-top:1px solid var(--line);
+}
+.welcome-action-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:2px 8px;
+}
+.welcome-action-grid .welcome-action{
+  min-width:0;
+}
+.welcome-tool-grid{
+  grid-template-columns:1fr 1fr;
+}
+@media(max-width:700px){
+  .welcome-action-grid,
+  .welcome-tool-grid{grid-template-columns:1fr}
+}
