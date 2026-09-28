@@ -638,3 +638,17 @@ button.active{background:#70420a;color:#f6d9a0;border-color:#d4870a}
   .welcome-workspace{height:62px;font-size:9px}
   .welcome-workspace-icon{font-size:21px}
 }
+
+.welcome-pixel-wordmark{
+  position:absolute;
+  left:3%;
+  top:3.2%;
+  width:min(560px,40%);
+  height:auto;
+  color:#f2f7ff;
+  filter:drop-shadow(4px 4px 0 #02060b) drop-shadow(0 8px 8px rgb(0 0 0 / .35));
+  shape-rendering:crispEdges;
+}
+@media(max-width:900px){
+  .welcome-pixel-wordmark{width:min(420px,48%)}
+}
