@@ -655,16 +655,30 @@ button.active{background:#70420a;color:#f6d9a0;border-color:#d4870a}
 
 .welcome-omarchy-subtitle{
   position:absolute;
-  left:34%;
-  top:31%;
-  z-index:2;
+  left:6.8%;
+  top:31.5%;
+  z-index:3;
   color:#f4d29e;
   font-size:10px;
   font-weight:700;
-  letter-spacing:2.5px;
+  letter-spacing:2.2px;
+  line-height:1.2;
   text-shadow:2px 2px 0 #000;
   white-space:nowrap;
   pointer-events:none;
+}
+.welcome-omarchy-subtitle::before{
+  content:"GAME CREATION SYSTEM ";
+}
+.welcome-omarchy-subtitle{
+  font-size:0;
+}
+.welcome-omarchy-subtitle::before{
+  font-size:10px;
+}
+.welcome-omarchy-subtitle::after{
+  content:"FOR OMARCHY LINUX";
+  font-size:10px;
 }
 
 /* Final welcome sizing + supplied hero image. */
