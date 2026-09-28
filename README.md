@@ -146,7 +146,7 @@ Build outputs:
 ```text
 src-tauri/target/release/pixel-forge
 src-tauri/target/release/bundle/appimage/Pixel Forge_1.0.1_amd64.AppImage
-src-tauri/target/release/bundle/deb/Pixel Forge_0.1.0_amd64.deb
+src-tauri/target/release/bundle/deb/Pixel Forge_1.0.1_amd64.deb
 ```
 
 For Omarchy, prefer the **AppImage** or the included Arch **PKGBUILD** path. The `.deb` is primarily for Debian- or Ubuntu-based systems and is not the native Omarchy package format.
