@@ -702,3 +702,21 @@ button.active{background:#70420a;color:#f6d9a0;border-color:#d4870a}
     max-height:calc(100vh - 30px);
   }
 }
+
+
+/* Keep the welcome launcher compact while allowing all actions to scroll. */
+.welcome-content{
+  overflow-y:auto;
+  overflow-x:hidden;
+  align-content:start;
+  scrollbar-width:thin;
+  scrollbar-color:#49627d #0b111a;
+}
+.welcome-column{
+  overflow:visible;
+  min-height:max-content;
+}
+.welcome-content::-webkit-scrollbar{width:8px}
+.welcome-content::-webkit-scrollbar-track{background:#0b111a}
+.welcome-content::-webkit-scrollbar-thumb{background:#49627d}
+.welcome-content::-webkit-scrollbar-thumb:hover{background:#6483a4}
