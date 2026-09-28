@@ -10,7 +10,32 @@
 <section class="asset-panel"><div class="asset-tabs" role="tablist"><button data-tab="tiles" class="active">▦ Tiles</button><button data-tab="entities">♟ Entities</button><button data-tab="sprites">▧ Sprites</button><button data-tab="animation">▤ Animation</button><button data-tab="console">›_ Console</button><button id="collapse" title="Collapse assets" aria-expanded="true">⌄</button><button id="resetLayout" title="Reset panel layout">↺</button><span class="resize-grip asset-resize-grip" title="Drag to resize assets"></span></div><div id="assetBody"><div class="asset-filters"><select id="biome" aria-label="Environment palette"><option value="forest">Moonfern · Forest</option><option value="ice">Frostglass · Ice</option><option value="lava">Embervault · Lava</option><option value="city">Nightwire · City</option></select><input id="assetSearch" placeholder="Search assets…" aria-label="Search assets"><span id="assetCount"></span></div><div id="assets" class="asset-grid"></div></div></section></section>
 <aside class="inspector"><div class="panel-heading">INSPECTOR <button id="collapseRight" class="panel-collapse" title="Collapse inspector panel" aria-expanded="true">›</button><span>◈</span></div><div id="inspection"></div><div class="palette-panel"><div class="panel-heading">WORLD PALETTE <span>16 COLORS</span></div><div id="swatches"></div><div class="palette-footer"><span id="paletteName">Moonfern dusk</span><span>● RGB</span></div></div><div class="inspector-footer"><span class="signal">●</span> All files stay on this device</div></aside>
 <span class="resize-grip left-resize-grip" title="Drag to resize project panel"></span><span class="resize-grip right-resize-grip" title="Drag to resize inspector"></span></main><footer class="statusbar"><span><span class="pink">✦</span> MAKE SOMETHING PLAYABLE.</span><span id="notification" role="status">Ready when you are.</span><span class="omarchy-badge">BUILT FOR OMARCHY</span><span>16 BIT SPIRIT. YOUR WORLD.</span></footer>
-<dialog id="welcome"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form><div class="welcome-logo">▦</div><p class="pink">WELCOME TO PIXEL FORGE</p><h1>Small pixels.<br>Entire worlds.</h1><p>A little workstation for your next big adventure.<br>Draw, build, and jump straight into your game.</p><div class="welcome-actions"><button id="newProject" class="primary">＋ New empty project</button><button id="openProject">▱ Open project</button><button id="sampleProject">▶ Explore the original sample</button><button id="startTour">? Show me around</button></div><div id="recent"></div><small>LOCAL FIRST · NO ACCOUNT · YOUR CREATIONS</small></dialog>
+<dialog id="welcome" class="welcome-dialog">
+<form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
+<div class="welcome-art" aria-hidden="true">
+  <canvas id="welcomeArtwork" width="1200" height="430"></canvas>
+  <div class="welcome-art-shade"></div>
+  <div class="welcome-brand">PIXEL FORGE</div>
+  <div class="welcome-tagline">RETRO GAME CREATION STUDIO</div>
+  <div class="welcome-version">LOCAL EDITION <b>v0.1</b></div>
+</div>
+<div class="welcome-content">
+  <section class="welcome-column">
+    <div class="welcome-heading">NEW FILE</div>
+    <button id="newProject" class="welcome-action primary"><span class="welcome-icon">▱</span><span>New empty project</span></button>
+    <button id="openProject" class="welcome-action"><span class="welcome-icon">▰</span><span>Open project</span></button>
+    <div id="recent" class="welcome-recent"></div>
+  </section>
+  <section class="welcome-column welcome-start">
+    <div class="welcome-heading">GETTING STARTED</div>
+    <button id="sampleProject" class="welcome-action"><span class="welcome-icon">▶</span><span>Explore the original sample</span></button>
+    <button id="startTour" class="welcome-action"><span class="welcome-icon">?</span><span>Show me around</span></button>
+    <div class="welcome-meta">
+      <span>LOCAL FIRST</span><span>NO ACCOUNT</span><span>YOUR CREATIONS</span>
+    </div>
+  </section>
+</div>
+</dialog>
 <dialog id="tourDialog" class="tour-dialog" aria-labelledby="tourTitle"><div class="tour-kicker">PIXEL FORGE FIELD GUIDE <span id="tourProgress">1 / 1</span></div><h2 id="tourTitle">Welcome to the editor</h2><p id="tourDescription">This guided tour explains the main controls one at a time. You can stop whenever you like.</p><div class="tour-actions"><button id="tourBack" type="button">← Back</button><button id="tourSkip" type="button" class="quiet">Skip tour</button><button id="tourNext" type="button" class="primary">Next →</button></div></dialog>
 <dialog id="helpDialog"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form><h2>Your pocket field guide</h2><p>Paint terrain, place a player and enemy from Entities, then Playtest.</p><div class="shortcut-list"><span>Pencil / Eraser / Select</span><kbd>B / E / V</kbd><span>Fill / Rectangle / Line / Pick</span><kbd>F / R / L / I</kbd><span>Pan canvas</span><kbd>Space + drag</kbd><span>Zoom</span><kbd>Mouse wheel</kbd><span>Grid / Collisions</span><kbd>G / C</kbd><span>Play / Stop</span><kbd>Enter</kbd><span>Undo / Redo</span><kbd>⌘ Z / ⌘ ⇧ Z</kbd><span>Duplicate / Delete entity</span><kbd>⌘ D / Delete</kbd><span>Save project to file</span><kbd>⌘ S</kbd></div><p>In game: arrows or WASD to move, Space to jump, X to attack, Esc to pause, R to restart. Controllers: left stick, A to jump, X to attack.</p><p>Save downloads an editable .pixel.json file. Export creates a standalone playable HTML game. Browser autosaves restore your latest work; larger audio payloads are kept in local IndexedDB rather than localStorage.</p></dialog>
 <input id="fileInput" type="file" accept=".json,.pixel.json" hidden><input id="spriteInput" type="file" accept="image/png" hidden><input id="audioInput" type="file" accept="audio/*" multiple hidden><script type="module" src="src/app.js"></script></body></html>
