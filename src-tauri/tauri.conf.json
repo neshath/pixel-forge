@@ -25,11 +25,17 @@
     ],
     "security": {
       "csp": null
-    }
+    },
+    "enableGTKAppId": true
   },
   "bundle": {
     "active": true,
-    "targets": ["appimage", "deb"],
-    "icon": ["icons/icon.png"]
+    "targets": [
+      "appimage",
+      "deb"
+    ],
+    "icon": [
+      "icons/icon.png"
+    ]
   }
 }

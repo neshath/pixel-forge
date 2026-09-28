@@ -92,9 +92,14 @@ grep -zq "WAYLAND_DISPLAY=" "/proc/$pid/environ" ||
 pass "Pixel Forge inherited a Wayland display"
 
 screenshot "success-pixel-forge-wayland-window"
+screen_contains "WELCOME TO PIXEL FORGE" ||
+  fail "Pixel Forge webview rendered its editor UI"
+pass "Pixel Forge webview rendered its editor UI"
 
-close_windows "pixel-forge"
-wait_until "Pixel Forge window closes cleanly" 20 window_absent "pixel-forge"
+address="$(echo "$client" | jq -r '.address')"
+hyprctl dispatch closewindow "address:$address" >/dev/null 2>&1 ||
+  fail "Hyprland accepts Pixel Forge close request"
+wait_until "Pixel Forge window closes cleanly" 20   bash -c 'hyprctl -j clients | jq -e '''[.[] | select(.address == "'"$address"'")] | length == 0''''
 pass "Pixel Forge closes cleanly under Hyprland"
 EOF
 chmod +x "$OMARCHY/test/acceptance.d/pixel-forge-test.sh"
