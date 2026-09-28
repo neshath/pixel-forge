@@ -5,68 +5,12 @@ import{initializeScene,validateExtended,biomeNames,gameTypes}from'./model.js';
 import{mountWorkbench}from'./workbench.js';
 import{ProjectStore}from'./storage.js';
 import{buildGameHTML}from'./export.js';
-import{openProjectFile as chooseProjectFile,saveProjectFile,readOmarchyColors}from'./platform.js';
+import{openProjectFile as chooseProjectFile,saveProjectFile}from'./platform.js';
 let workbench=null;
 const projectStore=new ProjectStore();
-const $=s=>document.querySelector(s),$=s=>[...document.querySelectorAll(s)];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SKIN_KEY='pixel-forge-skin';
 function applySkin(skin){const value=skin==='playground'?'playground':'classic';document.documentElement.dataset.skin=value;const toggle=$('#themeToggle');if(toggle){toggle.textContent=value==='playground'?'✦ Classic skin':'✦ Pixel Playground';toggle.setAttribute('aria-pressed',String(value==='playground'));toggle.title=value==='playground'?'Switch to Pixel Forge Classic':'Switch to Pixel Playground';}try{localStorage.setItem(SKIN_KEY,value)}catch{} }
-const OMARCHY_THEME_VARS={
-  bg:'background',
-  panel:'lighter_background',
-  raised:'selection',
-  line:'muted',
-  ink:'foreground',
-  muted:'dark_foreground',
-  pink:'accent',
-  green:'green',
-  cyan:'cyan',
-  dark:'darker_background',
-  accent:'accent',
-  surface:'lighter_background',
-  foreground:'foreground',
-  foregroundMuted:'dark_foreground',
-  danger:'red',
-  warning:'yellow',
-  info:'blue',
-  success:'green'
-};
-function parseOmarchyColors(raw){
-  const values={};
-  for(const line of String(raw||'').split(/\r?\n/)){
-    const match=line.match(/^\s*([A-Za-z0-9_-]+)\s*=\s*(['"])(.*?)\2(?:\s*#.*)?\s*$/);
-    if(match)values[match[1]]=match[3];
-  }
-  return values;
-}
-function isCssColor(value){
-  return /^(#[0-9a-fA-F]{3,8}|rgb(a)?\([^)]*\)|hsl(a)?\([^)]*\))$/.test(String(value||'').trim());
-}
-function applyOmarchyTheme(raw){
-  const colors=parseOmarchyColors(raw);
-  const mode=colors.mode==='light'?'light':'dark';
-  const root=document.documentElement;
-  let applied=0;
-  for(const [cssName,sourceName] of Object.entries(OMARCHY_THEME_VARS)){
-    const value=colors[sourceName];
-    if(!isCssColor(value))continue;
-    root.style.setProperty('--'+cssName.replace(/[A-Z]/g,m=>'-'+m.toLowerCase()),value);
-    applied++;
-  }
-  if(!applied)return false;
-  root.style.colorScheme=mode;
-  root.dataset.omarchyTheme='true';
-  root.dataset.omarchyThemeMode=mode;
-  return true;
-}
-let omarchyThemeReady=false;
-async function refreshOmarchyTheme(){
-  const raw=await readOmarchyColors();
-  if(raw)omarchyThemeReady=applyOmarchyTheme(raw)||omarchyThemeReady;
-}
-void refreshOmarchyTheme();
-setInterval(()=>{void refreshOmarchyTheme()},2500);
-
 const LAYOUT_KEY='pixel-forge-layout',defaultLayout={left:208,right:244,assets:200,leftCollapsed:false,rightCollapsed:false,assetsCollapsed:false};
 function readLayout(){try{return {...defaultLayout,...JSON.parse(localStorage.getItem(LAYOUT_KEY)||'{}')}}catch{return {...defaultLayout}}}
 let layout=readLayout();
@@ -182,8 +126,8 @@ async function welcome(){
 
 }
 
-$('#newProject').onclick=()=>{if(!p.sample&&!confirm('Start a new empty project? Save your current project first if needed.'))return;const name=prompt('Project name','My first world');if(name===null)return;const next=project();next.name=name.trim()||'Untitled project';loadProject(next);if($('#welcome').open)$('#welcome').close();note('Empty project created. Paint terrain, then place a player in Entities.')};
-$('#resumeProject').onclick=()=>{if(!welcomeSavedProject){note('No local autosave is available.',true);return;}try{loadProject(welcomeSavedProject);if($('#welcome').open)$('#welcome').close();note('Restored your last local autosave.')}catch(e){note(e.message,true)}};
+$('#newProject').onclick=()=>{if(!p.sample&&!confirm('Start a new empty project? Save your current project first if needed.'))return;const name=prompt('Project name','My first world');if(name===null)return;const next=project();next.name=name.trim()||'Untitled project';loadProject(next);note('Empty project created. Paint terrain, then place a player in Entities.')};
+$('#resumeProject').onclick=()=>{if(!welcomeSavedProject){note('No local autosave is available.',true);return;}try{loadProject(welcomeSavedProject);note('Restored your last local autosave.')}catch(e){note(e.message,true)}};
 const openExternal=url=>window.open(url,'_blank','noopener,noreferrer');
 $('#manualLink').onclick=()=>openExternal('https://github.com/neshath/pixel-forge/blob/main/README.md');
 $('#docsLink').onclick=()=>openExternal('https://github.com/neshath/pixel-forge/blob/main/README.md');
@@ -194,10 +138,10 @@ document.querySelectorAll('[data-welcome-mode]').forEach(b=>b.onclick=()=>{if($(
 document.querySelectorAll('[data-welcome-tab]').forEach(b=>b.onclick=()=>{if($('#welcome').open)$('#welcome').close();setTab(b.dataset.welcomeTab);note(b.dataset.welcomeTab+' workspace opened from welcome screen.')});
 $('#welcomeHelp').onclick=()=>{if($('#welcome').open)$('#welcome').close();$('#helpDialog').showModal()};
 
-$('#sampleProject').onclick=()=>{if(!p.sample&&!confirm('Open the sample? Save your current project first if needed.'))return;loadProject(project(true));if($('#welcome').open)$('#welcome').close();note('Opened the original Moonfern sample.')};
-async function openProject(){try{const file=await chooseProjectFile($('#fileInput'));if(!file)return;if(file.text.length>10_000_000)throw Error('Project is too large. Maximum file size is 10 MB.');const next=validateExtended(JSON.parse(file.text));if(!p.sample&&!confirm('Replace the current project with this file?'))return;loadProject(next);if($('#welcome').open)$('#welcome').close();note('Opened '+file.name)}catch(err){note('Could not open project: '+err.message,true)}}
+$('#sampleProject').onclick=()=>{if(!p.sample&&!confirm('Open the sample? Save your current project first if needed.'))return;loadProject(project(true));note('Opened the original Moonfern sample.')};
+async function openProject(){try{const file=await chooseProjectFile($('#fileInput'));if(!file)return;if(file.text.length>10_000_000)throw Error('Project is too large. Maximum file size is 10 MB.');const next=validateExtended(JSON.parse(file.text));if(!p.sample&&!confirm('Replace the current project with this file?'))return;loadProject(next);note('Opened '+file.name)}catch(err){note('Could not open project: '+err.message,true)}}
 $('#openProject').onclick=openProject;
-$('#fileInput').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>10_000_000)throw Error('Project is too large. Maximum file size is 10 MB.');const next=validateExtended(JSON.parse(await file.text()));if(!p.sample&&!confirm('Replace the current project with this file?'))return;loadProject(next);if($('#welcome').open)$('#welcome').close();note('Opened '+file.name)}catch(err){note('Could not open project: '+err.message,true)}e.target.value=''};
+$('#fileInput').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>10_000_000)throw Error('Project is too large. Maximum file size is 10 MB.');const next=validateExtended(JSON.parse(await file.text()));if(!p.sample&&!confirm('Replace the current project with this file?'))return;loadProject(next);note('Opened '+file.name)}catch(err){note('Could not open project: '+err.message,true)}e.target.value=''};
 const tourSteps=[
  {selector:'#projectBtn',title:'Project menu',description:'Open this menu to see the current project, resume saved work, create a new project, or open an existing .pixel.json file.'},
  {selector:'#save',title:'Save your project',description:'Save downloads an editable .pixel.json file. Your work also autosaves locally in the browser while you edit.'},
