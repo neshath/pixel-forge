@@ -790,3 +790,41 @@ button.active{background:#70420a;color:#f6d9a0;border-color:#d4870a}
     flex-basis:15px;
   }
 }
+
+
+/* Make splash typography more prominent without changing its proportions. */
+#welcome .welcome-heading{
+  font-size:13px !important;
+  letter-spacing:1.8px !important;
+  font-weight:700 !important;
+  color:#e3edf8 !important;
+}
+#welcome .welcome-action{
+  font-size:12px !important;
+  font-weight:500 !important;
+}
+#welcome .welcome-icon{
+  font-size:18px !important;
+  font-weight:700 !important;
+}
+#welcome .welcome-workspace{
+  font-size:10px !important;
+  font-weight:600 !important;
+}
+#welcome .welcome-workspace-icon{
+  font-size:20px !important;
+}
+#welcome .welcome-meta{
+  font-size:7px !important;
+  font-weight:700 !important;
+  letter-spacing:1.35px !important;
+}
+#welcome .welcome-version{
+  font-size:19px !important;
+  font-weight:700 !important;
+}
+#welcome .welcome-omarchy-branding{
+  font-size:8px !important;
+  font-weight:800 !important;
+  letter-spacing:1.2px !important;
+}
