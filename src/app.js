@@ -81,7 +81,19 @@ function updateAudio(id,kind,patch){const asset=p.audio[kind].find(a=>a.id===id)
 function removeAudio(id,kind){const asset=p.audio[kind].find(a=>a.id===id);if(!asset||!confirm(`Delete “${asset.name}”? Undo restores it.`))return;checkpoint();p.audio[kind]=p.audio[kind].filter(a=>a.id!==id);if(kind==='music')for(const s of p.scenes)if(s.musicId===id)s.musicId='';for(const s of p.scenes)for(const rule of s.events||[])if(rule.action==='sound'&&rule.value===id){rule.value='';rule.enabled=false;}changed();renderAssets()}
 async function save(){try{if(await download(JSON.stringify(p,null,2),p.name.replace(/[^a-z0-9]/gi,'-').toLowerCase()+'.pixel.json')){changed();note('Project saved. Includes scenes, sprites, palettes and settings.')}}catch(error){note('Save failed: '+error.message,true)}}
 function loadProject(next){p=validateExtended(next);history=new History();selected=null;spriteFrame=0;layerId='terrain';if(runtime)stop();mode='world';$$('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode==='world'));changed();refresh();fit();$('#welcome').close();}
-async function welcome(){const r=$('#recent');r.replaceChildren();try{const saved=await projectStore.loadLatestAsync();if(saved){const b=document.createElement('button');b.textContent='↶ Resume: '+saved.name;b.style.marginBottom='16px';b.onclick=()=>{try{loadProject(saved);note('Restored your last local autosave.')}catch(e){note(e.message,true)}};r.append(b)}}catch(e){note(e.message||'Could not restore the last autosave.',true)}$('#welcome').showModal()}
+function renderWelcomeArtwork(){
+  const canvas=$('#welcomeArtwork');
+  if(!canvas)return;
+  const c=canvas.getContext('2d');
+  const sample=project(true);
+  const s=sample.scenes[sample.activeScene]||sample.scenes[0];
+  const width=canvas.width,height=canvas.height;
+  const scale=Math.min(width/(s.width*16),height/(s.height*16));
+  const x=(width-s.width*16*scale)/2;
+  const y=(height-s.height*16*scale)/2;
+  drawScene(c,s,{x,y,scale,width,height,assets:sample.assets,customSprite:sample.sprite,time:0});
+}
+async function welcome(){const r=$('#recent');r.replaceChildren();try{const saved=await projectStore.loadLatestAsync();if(saved){const b=document.createElement('button');b.className='welcome-resume';b.textContent='↶ Resume: '+saved.name;b.onclick=()=>{try{loadProject(saved);note('Restored your last local autosave.')}catch(e){note(e.message,true)}};r.append(b)}}catch(e){note(e.message||'Could not restore the last autosave.',true)}$('#welcome').showModal();requestAnimationFrame(renderWelcomeArtwork)}
 $('#newProject').onclick=()=>{if(!p.sample&&!confirm('Start a new empty project? Save your current project first if needed.'))return;const name=prompt('Project name','My first world');if(name===null)return;const next=project();next.name=name.trim()||'Untitled project';loadProject(next);note('Empty project created. Paint terrain, then place a player in Entities.')};
 $('#sampleProject').onclick=()=>{if(!p.sample&&!confirm('Open the sample? Save your current project first if needed.'))return;loadProject(project(true));note('Opened the original Moonfern sample.')};
 async function openProject(){try{const file=await chooseProjectFile($('#fileInput'));if(!file)return;if(file.text.length>10_000_000)throw Error('Project is too large. Maximum file size is 10 MB.');const next=validateExtended(JSON.parse(file.text));if(!p.sample&&!confirm('Replace the current project with this file?'))return;loadProject(next);note('Opened '+file.name)}catch(err){note('Could not open project: '+err.message,true)}}
