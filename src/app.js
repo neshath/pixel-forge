@@ -75,7 +75,7 @@ async function refreshOmarchyTheme(){
     if(payload?.colors)applyOmarchyTheme(Object.entries(payload.colors).map(([k,v])=>k+' = "'+v+'"').join('\\n'));
   }catch{}
 }
-const markerExists=const LAYOUT_KEY='pixel-forge-layout',defaultLayout={left:208,right:244,assets:200,leftCollapsed:false,rightCollapsed:false,assetsCollapsed:false};
+const LAYOUT_KEY='pixel-forge-layout',defaultLayout={left:208,right:244,assets:200,leftCollapsed:false,rightCollapsed:false,assetsCollapsed:false};
 function readLayout(){try{return {...defaultLayout,...JSON.parse(localStorage.getItem(LAYOUT_KEY)||'{}')}}catch{return {...defaultLayout}}}
 let layout=readLayout();
 function saveLayout(){try{localStorage.setItem(LAYOUT_KEY,JSON.stringify(layout))}catch{}}
