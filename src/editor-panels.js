@@ -100,6 +100,7 @@ export function createPanels(api){
   const biome=document.querySelector('#biome');biome.replaceChildren();for(const[k,v]of Object.entries(biomeNames)){const opt=node('option','',v);opt.value=k;biome.append(opt);}
   const welcome=document.querySelector('#welcomeTemplates');if(!welcome)throw new Error('Welcome template mount point is missing.');
   welcome.replaceChildren(
+   button('▤ Open Moonfern platformer',()=>api.loadProject(templateProject('platformer')),'welcome-action'),
    button('◇ Create a top-down adventure',()=>api.loadProject(templateProject('topdown')),'welcome-action'),
    button('▣ Create a 2.5D water world',()=>api.loadProject(templateProject('2.5d')),'welcome-action'),
    button('✦ Create an arcade stage',()=>api.loadProject(templateProject('arcade')),'welcome-action'),
