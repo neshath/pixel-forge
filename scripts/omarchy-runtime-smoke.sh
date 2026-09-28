@@ -16,6 +16,7 @@ mkdir -p "$ISO_DIR"
 
 curl -fsSLo "$ISO" "$OMARCHY_ISO_URL"
 curl -fsSLo "$ISO.sha256" "$OMARCHY_ISO_URL.sha256"
+cd "$ISO_DIR"
 sha256sum -c "$ISO.sha256"
 
 git clone --depth 1 --branch quattro https://github.com/omacom/omarchy-iso.git "$HARNESS"
