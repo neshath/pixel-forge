@@ -913,3 +913,10 @@ button.active{background:#70420a;color:#f6d9a0;border-color:#d4870a}
     padding:24px 24px !important;
   }
 }
+
+
+/* Theme-colour frame around the splash. */
+#welcome .welcome-surface{
+  outline:4px solid var(--pink) !important;
+  outline-offset:0 !important;
+}
