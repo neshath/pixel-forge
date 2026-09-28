@@ -5,13 +5,77 @@ import{initializeScene,validateExtended,biomeNames,gameTypes}from'./model.js';
 import{mountWorkbench}from'./workbench.js';
 import{ProjectStore}from'./storage.js';
 import{buildGameHTML}from'./export.js';
-import{openProjectFile as chooseProjectFile,saveProjectFile}from'./platform.js';
+import{openProjectFile as chooseProjectFile,saveProjectFile,readOmarchyColors}from'./platform.js';
 let workbench=null;
 const projectStore=new ProjectStore();
+void refreshOmarchyTheme();
+setInterval(()=>{void refreshOmarchyTheme()},2500);
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SKIN_KEY='pixel-forge-skin';
 function applySkin(skin){const value=skin==='playground'?'playground':'classic';document.documentElement.dataset.skin=value;const toggle=$('#themeToggle');if(toggle){toggle.textContent=value==='playground'?'✦ Classic skin':'✦ Pixel Playground';toggle.setAttribute('aria-pressed',String(value==='playground'));toggle.title=value==='playground'?'Switch to Pixel Forge Classic':'Switch to Pixel Playground';}try{localStorage.setItem(SKIN_KEY,value)}catch{} }
-const LAYOUT_KEY='pixel-forge-layout',defaultLayout={left:208,right:244,assets:200,leftCollapsed:false,rightCollapsed:false,assetsCollapsed:false};
+const OMARCHY_THEME_VARS={
+  bg:'background',
+  panel:'lighter_background',
+  raised:'selection',
+  line:'muted',
+  ink:'foreground',
+  muted:'dark_foreground',
+  pink:'accent',
+  green:'green',
+  cyan:'cyan',
+  dark:'darker_background',
+  accent:'accent',
+  surface:'lighter_background',
+  foreground:'foreground',
+  foregroundMuted:'dark_foreground',
+  danger:'red',
+  warning:'yellow',
+  info:'blue',
+  success:'green'
+};
+function parseOmarchyColors(raw){
+  const values={};
+  for(const line of String(raw||'').split(/\\r?\\n/)){
+    const match=line.match(/^\\s*([A-Za-z0-9_-]+)\\s*=\\s*(['"])(.*?)\\2(?:\\s*#.*)?\\s*$/);
+    if(match)values[match[1]]=match[3];
+  }
+  return values;
+}
+function isCssColor(value){
+  return /^(#[0-9a-fA-F]{3,8}|rgb(a)?\\([^)]*\\)|hsl(a)?\\([^)]*\\))$/.test(String(value||'').trim());
+}
+function applyOmarchyTheme(raw){
+  const colors=parseOmarchyColors(raw);
+  const mode=colors.mode==='light'?'light':'dark';
+  const root=document.documentElement;
+  let applied=0;
+  for(const [cssName,sourceName] of Object.entries(OMARCHY_THEME_VARS)){
+    const value=colors[sourceName];
+    if(!isCssColor(value))continue;
+    root.style.setProperty('--'+cssName.replace(/[A-Z]/g,m=>'-'+m.toLowerCase()),value);
+    applied++;
+  }
+  if(!applied)return false;
+  root.style.colorScheme=mode;
+  root.dataset.omarchyTheme='true';
+  root.dataset.omarchyThemeMode=mode;
+  return true;
+}
+let omarchyThemeReady=false;
+async function refreshOmarchyTheme(){
+  let raw=await readOmarchyColors();
+  if(raw){
+    omarchyThemeReady=applyOmarchyTheme(raw)||omarchyThemeReady;
+    return;
+  }
+  try{
+    const response=await fetch('./omarchy-theme.json?t='+Date.now(),{cache:'no-store'});
+    if(!response.ok)return;
+    const payload=await response.json();
+    if(payload?.colors)applyOmarchyTheme(Object.entries(payload.colors).map(([k,v])=>k+' = "'+v+'"').join('\\n'));
+  }catch{}
+}
+const markerExists=const LAYOUT_KEY='pixel-forge-layout',defaultLayout={left:208,right:244,assets:200,leftCollapsed:false,rightCollapsed:false,assetsCollapsed:false};
 function readLayout(){try{return {...defaultLayout,...JSON.parse(localStorage.getItem(LAYOUT_KEY)||'{}')}}catch{return {...defaultLayout}}}
 let layout=readLayout();
 function saveLayout(){try{localStorage.setItem(LAYOUT_KEY,JSON.stringify(layout))}catch{}}
