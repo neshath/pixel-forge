@@ -35,14 +35,14 @@ const OMARCHY_THEME_VARS={
 };
 function parseOmarchyColors(raw){
   const values={};
-  for(const line of String(raw||'').split(/\\r?\\n/)){
-    const match=line.match(/^\\s*([A-Za-z0-9_-]+)\\s*=\\s*(['"])(.*?)\\2(?:\\s*#.*)?\\s*$/);
+  for(const line of String(raw||'').split(/\r?\n/)){
+    const match=line.match(/^\s*([A-Za-z0-9_-]+)\s*=\s*(['"])(.*?)\2(?:\s*#.*)?\s*$/);
     if(match)values[match[1]]=match[3];
   }
   return values;
 }
 function isCssColor(value){
-  return /^(#[0-9a-fA-F]{3,8}|rgb(a)?\\([^)]*\\)|hsl(a)?\\([^)]*\\))$/.test(String(value||'').trim());
+  return /^(#[0-9a-fA-F]{3,8}|rgb(a)?\([^)]*\)|hsl(a)?\([^)]*\))$/.test(String(value||'').trim());
 }
 function applyOmarchyTheme(raw){
   const colors=parseOmarchyColors(raw);
