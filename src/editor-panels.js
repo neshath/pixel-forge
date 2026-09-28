@@ -98,8 +98,8 @@ export function createPanels(api){
   const manage=button('▱ All saved projects',showProjects,'quiet');document.querySelector('.project-tree').append(manage);
   for(const[id,label]of [['files','▱ Files'],['hud','♥ HUD'],['collisions','▧ Solids']]){const b=button(label,()=>api.setTab(id));b.dataset.tab=id;document.querySelector('.asset-tabs').insertBefore(b,document.querySelector('#collapse'));}
   const biome=document.querySelector('#biome');biome.replaceChildren();for(const[k,v]of Object.entries(biomeNames)){const opt=node('option','',v);opt.value=k;biome.append(opt);}
-  const welcome=document.querySelector('.welcome-actions');if(!welcome)throw new Error('Welcome action mount point is missing.');
-  welcome.append(
+  const welcome=document.querySelector('#welcomeTemplates');if(!welcome)throw new Error('Welcome template mount point is missing.');
+  welcome.replaceChildren(
    button('◇ Create a top-down adventure',()=>api.loadProject(templateProject('topdown')),'welcome-action'),
    button('▣ Create a 2.5D water world',()=>api.loadProject(templateProject('2.5d')),'welcome-action'),
    button('✦ Create an arcade stage',()=>api.loadProject(templateProject('arcade')),'welcome-action'),
