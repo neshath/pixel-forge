@@ -81,18 +81,37 @@ function updateAudio(id,kind,patch){const asset=p.audio[kind].find(a=>a.id===id)
 function removeAudio(id,kind){const asset=p.audio[kind].find(a=>a.id===id);if(!asset||!confirm(`Delete “${asset.name}”? Undo restores it.`))return;checkpoint();p.audio[kind]=p.audio[kind].filter(a=>a.id!==id);if(kind==='music')for(const s of p.scenes)if(s.musicId===id)s.musicId='';for(const s of p.scenes)for(const rule of s.events||[])if(rule.action==='sound'&&rule.value===id){rule.value='';rule.enabled=false;}changed();renderAssets()}
 async function save(){try{if(await download(JSON.stringify(p,null,2),p.name.replace(/[^a-z0-9]/gi,'-').toLowerCase()+'.pixel.json')){changed();note('Project saved. Includes scenes, sprites, palettes and settings.')}}catch(error){note('Save failed: '+error.message,true)}}
 function loadProject(next){p=validateExtended(next);history=new History();selected=null;spriteFrame=0;layerId='terrain';if(runtime)stop();mode='world';$$('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode==='world'));changed();refresh();fit();$('#welcome').close();}
+const WELCOME_ARTWORK_SRC='./pixel-forge-welcome.png';
+let welcomeArtworkImage=null;
 function renderWelcomeArtwork(){
   const canvas=$('#welcomeArtwork');
   if(!canvas)return;
   const ctx=canvas.getContext('2d');
+  const width=canvas.width,height=canvas.height;
+  if(welcomeArtworkImage?.complete&&welcomeArtworkImage.naturalWidth){
+    ctx.clearRect(0,0,width,height);
+    const scale=Math.max(width/welcomeArtworkImage.naturalWidth,height/welcomeArtworkImage.naturalHeight);
+    const drawWidth=welcomeArtworkImage.naturalWidth*scale;
+    const drawHeight=welcomeArtworkImage.naturalHeight*scale;
+    const x=(width-drawWidth)/2;
+    const y=(height-drawHeight)/2;
+    ctx.drawImage(welcomeArtworkImage,x,y,drawWidth,drawHeight);
+    return;
+  }
   const sample=project(true);
   const s=sample.scenes[sample.activeScene]||sample.scenes[0];
-  const width=canvas.width,height=canvas.height;
   const scale=Math.min(width/(s.width*16),height/(s.height*16));
   const x=(width-s.width*16*scale)/2;
   const y=(height-s.height*16*scale)/2;
   drawScene(ctx,s,{x,y,scale,width,height,assets:sample.assets,customSprite:sample.sprite,time:0});
 }
+function loadWelcomeArtwork(){
+  const image=new Image();
+  image.onload=()=>{welcomeArtworkImage=image;renderWelcomeArtwork();};
+  image.onerror=()=>{welcomeArtworkImage=null;renderWelcomeArtwork();};
+  image.src=WELCOME_ARTWORK_SRC;
+}
+
 let welcomeSavedProject=null;
 async function welcome(){
  try{
@@ -103,7 +122,7 @@ async function welcome(){
    resume.title=welcomeSavedProject?'Resume '+welcomeSavedProject.name:'No local autosave available';
   }
  }catch(e){welcomeSavedProject=null;note(e.message||'Could not restore the last autosave.',true);}
- $('#welcome').showModal(); requestAnimationFrame(renderWelcomeArtwork);
+ $('#welcome').showModal(); requestAnimationFrame(()=>{loadWelcomeArtwork();});
 
 }
 
