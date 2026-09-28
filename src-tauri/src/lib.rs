@@ -1,8 +1,6 @@
 #[cfg(debug_assertions)]
 use tauri::Manager;
 
-#[cfg_attr(mobile, tauri::mobile_entry_point)]
-
 #[tauri::command]
 fn get_omarchy_colors() -> Result<String, String> {
     let home = std::env::var_os("HOME")
@@ -18,6 +16,7 @@ fn get_omarchy_colors() -> Result<String, String> {
         .map_err(|error| format!("Could not read Omarchy colors at {}: {error}", path.display()))
 }
 
+#[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
