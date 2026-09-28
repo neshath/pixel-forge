@@ -916,3 +916,120 @@ button.active{background:#70420a;color:#f6d9a0;border-color:#d4870a}
     border-bottom:1px solid #2a3b50;
   }
 }
+
+
+/* Final Blender-reference splash geometry: compact portrait card. */
+#welcome.welcome-dialog{
+  width:520px !important;
+  max-width:520px !important;
+  height:590px !important;
+  max-height:calc(100vh - 32px) !important;
+  padding:0 !important;
+  margin:auto !important;
+  overflow:hidden !important;
+  border-radius:3px !important;
+}
+#welcome .welcome-surface{
+  width:520px !important;
+  height:590px !important;
+  max-width:520px !important;
+  max-height:calc(100vh - 32px) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+}
+#welcome .welcome-art{
+  flex:0 0 255px !important;
+  width:520px !important;
+  height:255px !important;
+  min-height:255px !important;
+  overflow:hidden !important;
+}
+#welcome #welcomeArtwork{
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center !important;
+}
+#welcome .welcome-content{
+  flex:1 1 auto !important;
+  width:520px !important;
+  min-height:0 !important;
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  overflow:hidden !important;
+}
+#welcome .welcome-column{
+  padding:18px 22px !important;
+  min-width:0 !important;
+  overflow:hidden !important;
+}
+#welcome .welcome-action{
+  height:30px !important;
+  min-height:30px !important;
+  padding:3px 4px !important;
+  font-size:10px !important;
+}
+#welcome .welcome-icon{
+  width:22px !important;
+  min-width:22px !important;
+  font-size:15px !important;
+}
+#welcome .welcome-heading{
+  font-size:9px !important;
+  letter-spacing:1px !important;
+}
+#welcome .welcome-rule{
+  margin:6px 0 7px !important;
+}
+#welcome .welcome-workspaces{
+  gap:4px !important;
+  margin-top:7px !important;
+}
+#welcome .welcome-workspace{
+  height:48px !important;
+  padding:4px 2px !important;
+  font-size:8px !important;
+}
+#welcome .welcome-workspace-icon{
+  font-size:16px !important;
+}
+#welcome .welcome-heading-spaced{
+  margin-top:11px !important;
+}
+#welcome .welcome-divider{
+  margin:9px 0 5px !important;
+}
+#welcome .welcome-meta{
+  margin-top:8px !important;
+  font-size:6px !important;
+}
+#welcome .welcome-omarchy-subtitle{
+  bottom:10px !important;
+  left:5.5% !important;
+  font-size:7px !important;
+  letter-spacing:1.2px !important;
+}
+#welcome .welcome-version{
+  top:10px !important;
+  right:12px !important;
+  font-size:13px !important;
+}
+@media(max-width:560px){
+  #welcome.welcome-dialog{
+    width:calc(100vw - 24px) !important;
+    max-width:calc(100vw - 24px) !important;
+    height:calc(100vh - 24px) !important;
+    max-height:calc(100vh - 24px) !important;
+  }
+  #welcome .welcome-surface,
+  #welcome .welcome-art,
+  #welcome .welcome-content{
+    width:100% !important;
+    max-width:none !important;
+  }
+  #welcome .welcome-surface{
+    height:100% !important;
+    max-height:none !important;
+  }
+}
