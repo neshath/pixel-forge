@@ -8,9 +8,7 @@ import{buildGameHTML}from'./export.js';
 import{openProjectFile as chooseProjectFile,saveProjectFile,readOmarchyColors}from'./platform.js';
 let workbench=null;
 const projectStore=new ProjectStore();
-void refreshOmarchyTheme();
-setInterval(()=>{void refreshOmarchyTheme()},2500);
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const $=s=>document.querySelector(s),$=s=>[...document.querySelectorAll(s)];
 const SKIN_KEY='pixel-forge-skin';
 function applySkin(skin){const value=skin==='playground'?'playground':'classic';document.documentElement.dataset.skin=value;const toggle=$('#themeToggle');if(toggle){toggle.textContent=value==='playground'?'✦ Classic skin':'✦ Pixel Playground';toggle.setAttribute('aria-pressed',String(value==='playground'));toggle.title=value==='playground'?'Switch to Pixel Forge Classic':'Switch to Pixel Playground';}try{localStorage.setItem(SKIN_KEY,value)}catch{} }
 const OMARCHY_THEME_VARS={
@@ -75,6 +73,9 @@ async function refreshOmarchyTheme(){
     if(payload?.colors)applyOmarchyTheme(Object.entries(payload.colors).map(([k,v])=>k+' = "'+v+'"').join('\\n'));
   }catch{}
 }
+void refreshOmarchyTheme();
+setInterval(()=>{void refreshOmarchyTheme()},2500);
+
 const LAYOUT_KEY='pixel-forge-layout',defaultLayout={left:208,right:244,assets:200,leftCollapsed:false,rightCollapsed:false,assetsCollapsed:false};
 function readLayout(){try{return {...defaultLayout,...JSON.parse(localStorage.getItem(LAYOUT_KEY)||'{}')}}catch{return {...defaultLayout}}}
 let layout=readLayout();
