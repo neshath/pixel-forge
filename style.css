@@ -652,3 +652,35 @@ button.active{background:#70420a;color:#f6d9a0;border-color:#d4870a}
 @media(max-width:900px){
   .welcome-pixel-wordmark{width:min(420px,48%)}
 }
+
+/* Final welcome sizing + supplied hero image. */
+.welcome-surface{
+  width:min(1180px,calc(100vw - 56px));
+  height:min(calc(100vh - 56px),calc((100vw - 56px) * .7447));
+  max-height:calc(100vh - 56px);
+}
+.welcome-art{
+  flex-basis:45%;
+}
+#welcomeArtwork{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  image-rendering:auto;
+}
+.welcome-version{
+  font-size:18px;
+  top:3.2%;
+  right:2.4%;
+}
+@media(max-width:900px){
+  .welcome-surface{
+    width:calc(100vw - 30px);
+    height:min(calc(100vh - 30px),calc((100vw - 30px) * .7447));
+    max-height:calc(100vh - 30px);
+  }
+}
