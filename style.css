@@ -653,6 +653,20 @@ button.active{background:#70420a;color:#f6d9a0;border-color:#d4870a}
   .welcome-pixel-wordmark{width:min(420px,48%)}
 }
 
+.welcome-omarchy-subtitle{
+  position:absolute;
+  left:34%;
+  top:31%;
+  z-index:2;
+  color:#f4d29e;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:2.5px;
+  text-shadow:2px 2px 0 #000;
+  white-space:nowrap;
+  pointer-events:none;
+}
+
 /* Final welcome sizing + supplied hero image. */
 .welcome-surface{
   width:min(760px,calc(100vw - 40px));
