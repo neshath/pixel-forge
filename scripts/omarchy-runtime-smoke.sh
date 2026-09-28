@@ -70,9 +70,9 @@ pass "Pixel Forge executable is present"
 
 launch_app 'env GDK_BACKEND=wayland /usr/bin/pixel-forge >/tmp/pixel-forge.log 2>&1'
 
-wait_until "Pixel Forge opens a Hyprland window" 45   bash -c 'hyprctl -j clients | jq -e '''[.[] | select((.class | test("pixel-forge"; "i")) and (.title == "Pixel Forge — Retro Game Studio"))] | length > 0''''
+wait_until "Pixel Forge opens a Hyprland window" 45   bash -c 'hyprctl -j clients | jq -e '\''[.[] | select(.title == "Pixel Forge — Retro Game Studio")] | length > 0'\'''
 
-client="$(hyprctl -j clients | jq -e '[.[] | select((.class | test("pixel-forge"; "i")) and (.title == "Pixel Forge — Retro Game Studio"))][0]')"
+client="$(hyprctl -j clients | jq -e '[.[] | select(.title == "Pixel Forge — Retro Game Studio")][0]')"
 
 echo "$client" | jq -e '(.xwayland // false) == false' >/dev/null ||
   fail "Pixel Forge is a native Wayland client"

@@ -47,7 +47,7 @@ jobs:
 
       - name: Run real Omarchy + Hyprland smoke test
         env:
-          PIXEL_FORGE_SHA: 2516dd8a6dc274a19de86b71cae858d6fdf28ad1
+          PIXEL_FORGE_SHA: 1ca8a31ac27446287449e63ac2bcdc317eb1fc33
           OMARCHY_ISO_URL: https://iso.omarchy.org/omarchy-4.0.4.iso
         run: bash scripts/omarchy-runtime-smoke.sh
 
