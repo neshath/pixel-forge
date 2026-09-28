@@ -180,3 +180,170 @@ button.active{background:#70420a;color:#f6d9a0;border-color:#d4870a}
 .garden-settings-tab{padding:18px 14px;overflow:auto;height:100%}
 .garden-settings-tab h3{margin:0 0 6px;color:var(--pink);font-size:10px;letter-spacing:1px}
 .garden-settings-tab>.empty-copy{margin-bottom:14px}
+
+/* Blender-inspired welcome surface: the existing actions remain intact,
+   while the sample renderer supplies the hero artwork. */
+#welcome.welcome-dialog{
+  width:min(980px,calc(100vw - 32px));
+  max-width:980px;
+  padding:0;
+  overflow:hidden;
+  background:var(--panel);
+  border:1px solid var(--line);
+  box-shadow:10px 10px 0 oklch(.08 0 0 / .55);
+}
+#welcome.welcome-dialog .dialog-close{
+  z-index:5;
+  color:#fff;
+  text-shadow:1px 1px 0 #000;
+  background:oklch(.08 0 0 / .35);
+  border:0;
+  width:34px;
+  height:34px;
+  padding:0;
+}
+.welcome-art{
+  position:relative;
+  height:350px;
+  background:var(--dark);
+  overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+#welcomeArtwork{
+  display:block;
+  width:100%;
+  height:100%;
+  image-rendering:pixelated;
+}
+.welcome-art-shade{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,oklch(.04 .01 280 / .68) 0%,oklch(.04 .01 280 / .12) 48%,oklch(.04 .01 280 / .28) 100%),
+    linear-gradient(0deg,oklch(.04 .01 280 / .82) 0%,transparent 42%);
+  pointer-events:none;
+}
+.welcome-brand{
+  position:absolute;
+  left:34px;
+  bottom:38px;
+  color:#fff;
+  font-family:Impact,'Arial Black',sans-serif;
+  font-size:clamp(38px,6vw,76px);
+  line-height:.85;
+  letter-spacing:-2px;
+  text-shadow:4px 4px 0 #000,7px 7px 0 rgb(0 0 0 / .35);
+}
+.welcome-tagline{
+  position:absolute;
+  left:38px;
+  bottom:20px;
+  color:#f4d29e;
+  font-size:9px;
+  letter-spacing:2px;
+  text-shadow:1px 1px 0 #000;
+}
+.welcome-version{
+  position:absolute;
+  top:18px;
+  right:24px;
+  color:#fff;
+  font-size:10px;
+  letter-spacing:1px;
+  text-shadow:1px 1px 0 #000;
+}
+.welcome-version b{
+  border:1px solid rgb(255 255 255 / .55);
+  padding:3px 6px;
+  margin-left:6px;
+}
+.welcome-content{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-height:220px;
+  background:color-mix(in oklch,var(--panel) 94%,black);
+}
+.welcome-column{
+  padding:22px 28px 24px;
+  min-width:0;
+}
+.welcome-column + .welcome-column{
+  border-left:1px solid var(--line);
+}
+.welcome-heading{
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:10px;
+}
+.welcome-action{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-align:left;
+  padding:10px 4px;
+  border:0;
+  border-bottom:1px solid oklch(.5 0 0 / .08);
+  background:transparent;
+  font-size:12px;
+}
+.welcome-action:hover{
+  background:var(--raised);
+  border-color:var(--line);
+}
+.welcome-action.primary{
+  color:var(--ink);
+  background:transparent;
+  border-color:transparent;
+  font-weight:600;
+}
+.welcome-action.primary:hover{
+  background:var(--raised);
+  border-color:var(--line);
+}
+.welcome-icon{
+  width:24px;
+  flex:0 0 24px;
+  text-align:center;
+  color:var(--muted);
+  font-size:17px;
+}
+.welcome-action.primary .welcome-icon,
+.welcome-action:hover .welcome-icon{
+  color:var(--pink);
+}
+.welcome-recent{
+  margin-top:9px;
+}
+.welcome-resume{
+  width:100%;
+  text-align:left;
+  padding:9px 8px;
+  color:var(--muted);
+  border:1px solid var(--line);
+  background:var(--raised);
+  font-size:10px;
+}
+.welcome-resume:hover{
+  color:var(--ink);
+}
+.welcome-meta{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+  padding-top:13px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:1px;
+  flex-wrap:wrap;
+}
+@media(max-width:700px){
+  #welcome.welcome-dialog{width:calc(100vw - 20px)}
+  .welcome-art{height:270px}
+  .welcome-content{grid-template-columns:1fr}
+  .welcome-column{padding:18px 20px}
+  .welcome-column + .welcome-column{border-left:0;border-top:1px solid var(--line)}
+  .welcome-brand{left:22px;bottom:34px;font-size:42px}
+  .welcome-tagline{left:25px;bottom:18px}
+}
