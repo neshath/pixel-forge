@@ -17,3 +17,29 @@ test('lava joins spikes as damage terrain and palette events support expanded en
  r.runAction({action:'palette',value:'__proto__'});assert.equal(r.scene.biome,'jungle');
  assert.equal(s.biome,'forest');
 });
+
+test('launcher templates are distinct and Moonfern platformer remains reachable',()=>{
+ const platformer=templateProject('platformer');
+ const topdown=templateProject('topdown');
+ const water=templateProject('2.5d');
+ const arcade=templateProject('arcade');
+ assert.equal(platformer.scenes[0].gameType,'platformer');
+ assert.equal(platformer.scenes[0].name,'Moonfern crossing');
+ assert.equal(platformer.sample,true);
+ assert.equal(topdown.scenes[0].gameType,'topdown');
+ assert.equal(topdown.scenes[0].name,'Understone · Lantern Vault');
+ assert.equal(topdown.scenes[0].width,40);
+ assert.equal(arcade.scenes[0].gameType,'arcade');
+ assert.equal(arcade.scenes[0].name,'Nightwire · Arcade Run');
+ assert.equal(arcade.scenes[0].width,64);
+ assert.notEqual(topdown.scenes[0].name,arcade.scenes[0].name);
+ assert.notDeepEqual(
+  topdown.scenes[0].layers.find(l=>l.id==='terrain').tiles,
+  arcade.scenes[0].layers.find(l=>l.id==='terrain').tiles
+ );
+ const topdownDoor=topdown.scenes[0].entities.find(e=>e.type==='door');
+ const topdownSwitch=topdown.scenes[0].entities.find(e=>e.type==='switch');
+ const switchRule=topdown.scenes[0].events.find(e=>e.sourceId===topdownSwitch.id);
+ assert.equal(switchRule.action,'open');
+ assert.equal(switchRule.targetId,topdownDoor.id);
+});
