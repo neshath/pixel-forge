@@ -12,6 +12,17 @@ function tauriModules() {
   return {open: tauri.dialog.open, save: tauri.dialog.save, readTextFile: tauri.fs.readTextFile, writeTextFile: tauri.fs.writeTextFile};
 }
 
+export async function readOmarchyColors() {
+  if (!isDesktop) return null;
+  const invoke = globalThis.__TAURI__?.core?.invoke;
+  if (typeof invoke !== 'function') return null;
+  try {
+    return await invoke('get_omarchy_colors');
+  } catch {
+    return null;
+  }
+}
+
 export async function openProjectFile(browserInput) {
   if (isDesktop) {
     const {open, readTextFile} = tauriModules();
