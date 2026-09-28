@@ -61,7 +61,7 @@ export function templateProject(type='platformer') {
   const npc=entity('npc',240,352);npc.text='The lantern vault is sealed. Find the key or trigger the ancient switch.';
   const gem1=entity('gem',272,128),gem2=entity('gem',400,320),enemy=entity('enemy',448,112);enemy.behavior='patrol';enemy.patrol=160;
   s.entities=[player,key,switchEntity,door,npc,gem1,gem2,enemy];
-  const rule=createRule();Object.assign(rule,{name:'Switch opens the vault',event:'switch',sourceId:switchEntity.id,action:'scene',targetId:''});s.events.push(rule);
+  const rule=createRule();Object.assign(rule,{name:'Switch opens the vault',event:'switch',sourceId:switchEntity.id,action:'open',targetId:door.id});s.events.push(rule);
   s.hud.objective='Explore the vault, find the key, and open the sealed gate.';
   p.name='Understone · Lantern Vault';p.scenes=[s];return p;
  }
