@@ -98,7 +98,13 @@ export function createPanels(api){
   const manage=button('▱ All saved projects',showProjects,'quiet');document.querySelector('.project-tree').append(manage);
   for(const[id,label]of [['files','▱ Files'],['hud','♥ HUD'],['collisions','▧ Solids']]){const b=button(label,()=>api.setTab(id));b.dataset.tab=id;document.querySelector('.asset-tabs').insertBefore(b,document.querySelector('#collapse'));}
   const biome=document.querySelector('#biome');biome.replaceChildren();for(const[k,v]of Object.entries(biomeNames)){const opt=node('option','',v);opt.value=k;biome.append(opt);}
-  const welcome=document.querySelector('.welcome-actions');welcome.append(button('◇ Create a top-down adventure',()=>api.loadProject(templateProject('topdown'))),button('▣ Create a 2.5D water world',()=>api.loadProject(templateProject('2.5d'))),button('✦ Create an arcade stage',()=>api.loadProject(templateProject('arcade'))),button('▱ All saved projects',showProjects));
+  const welcome=document.querySelector('.welcome-actions');if(!welcome)throw new Error('Welcome action mount point is missing.');
+  welcome.append(
+   button('◇ Create a top-down adventure',()=>api.loadProject(templateProject('topdown')),'welcome-action'),
+   button('▣ Create a 2.5D water world',()=>api.loadProject(templateProject('2.5d')),'welcome-action'),
+   button('✦ Create an arcade stage',()=>api.loadProject(templateProject('arcade')),'welcome-action'),
+   button('▱ All saved projects',showProjects,'welcome-action')
+  );
   const deleteScene=button('− Delete scene',()=>{if(api.project.scenes.length<=1){api.note('A project needs at least one scene.');return;}if(!confirm(`Delete “${api.scene.name}”? Undo restores the scene.`))return;mutate(()=>{const id=api.scene.id;api.project.scenes.splice(api.project.activeScene,1);api.project.activeScene=Math.max(0,api.project.activeScene-1);clearSceneReferences(api.project,id);api.selected=null;});},'quiet');document.querySelector('.project-tree').append(deleteScene);
  }
  init();
