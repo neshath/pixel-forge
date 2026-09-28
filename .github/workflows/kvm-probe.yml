@@ -1,0 +1,24 @@
+name: Omarchy runtime infrastructure probe
+
+on:
+  push:
+    branches:
+      - test/omarchy-quattro-runtime
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Probe KVM and QEMU
+        run: |
+          set -euxo pipefail
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86 qemu-utils
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules || true
+          sudo udevadm trigger --name-match=kvm || true
+          test -e /dev/kvm
+          sudo chmod 666 /dev/kvm
+          qemu-system-x86_64 --version
+          ls -l /dev/kvm
