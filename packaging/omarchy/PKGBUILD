@@ -8,7 +8,7 @@ url='https://github.com/neshath/pixel-forge'
 license=('MIT')
 depends=('webkit2gtk-4.1' 'gtk3')
 makedepends=('git' 'nodejs' 'npm' 'rust' 'pkgconf' 'patchelf')
-_commit='dcb0935d66cf9746935cf489623cdb057ba43aea'
+_commit='044c7e32807f4276b7bac17c3883cd7a568032e7'
 source=("git+https://github.com/neshath/pixel-forge.git#commit=${_commit}")
 sha256sums=('SKIP')
 
