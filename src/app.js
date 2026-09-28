@@ -182,8 +182,8 @@ async function welcome(){
 
 }
 
-$('#newProject').onclick=()=>{if(!p.sample&&!confirm('Start a new empty project? Save your current project first if needed.'))return;const name=prompt('Project name','My first world');if(name===null)return;const next=project();next.name=name.trim()||'Untitled project';loadProject(next);note('Empty project created. Paint terrain, then place a player in Entities.')};
-$('#resumeProject').onclick=()=>{if(!welcomeSavedProject){note('No local autosave is available.',true);return;}try{loadProject(welcomeSavedProject);note('Restored your last local autosave.')}catch(e){note(e.message,true)}};
+$('#newProject').onclick=()=>{if(!p.sample&&!confirm('Start a new empty project? Save your current project first if needed.'))return;const name=prompt('Project name','My first world');if(name===null)return;const next=project();next.name=name.trim()||'Untitled project';loadProject(next);if($('#welcome').open)$('#welcome').close();note('Empty project created. Paint terrain, then place a player in Entities.')};
+$('#resumeProject').onclick=()=>{if(!welcomeSavedProject){note('No local autosave is available.',true);return;}try{loadProject(welcomeSavedProject);if($('#welcome').open)$('#welcome').close();note('Restored your last local autosave.')}catch(e){note(e.message,true)}};
 const openExternal=url=>window.open(url,'_blank','noopener,noreferrer');
 $('#manualLink').onclick=()=>openExternal('https://github.com/neshath/pixel-forge/blob/main/README.md');
 $('#docsLink').onclick=()=>openExternal('https://github.com/neshath/pixel-forge/blob/main/README.md');
@@ -194,10 +194,10 @@ document.querySelectorAll('[data-welcome-mode]').forEach(b=>b.onclick=()=>{if($(
 document.querySelectorAll('[data-welcome-tab]').forEach(b=>b.onclick=()=>{if($('#welcome').open)$('#welcome').close();setTab(b.dataset.welcomeTab);note(b.dataset.welcomeTab+' workspace opened from welcome screen.')});
 $('#welcomeHelp').onclick=()=>{if($('#welcome').open)$('#welcome').close();$('#helpDialog').showModal()};
 
-$('#sampleProject').onclick=()=>{if(!p.sample&&!confirm('Open the sample? Save your current project first if needed.'))return;loadProject(project(true));note('Opened the original Moonfern sample.')};
-async function openProject(){try{const file=await chooseProjectFile($('#fileInput'));if(!file)return;if(file.text.length>10_000_000)throw Error('Project is too large. Maximum file size is 10 MB.');const next=validateExtended(JSON.parse(file.text));if(!p.sample&&!confirm('Replace the current project with this file?'))return;loadProject(next);note('Opened '+file.name)}catch(err){note('Could not open project: '+err.message,true)}}
+$('#sampleProject').onclick=()=>{if(!p.sample&&!confirm('Open the sample? Save your current project first if needed.'))return;loadProject(project(true));if($('#welcome').open)$('#welcome').close();note('Opened the original Moonfern sample.')};
+async function openProject(){try{const file=await chooseProjectFile($('#fileInput'));if(!file)return;if(file.text.length>10_000_000)throw Error('Project is too large. Maximum file size is 10 MB.');const next=validateExtended(JSON.parse(file.text));if(!p.sample&&!confirm('Replace the current project with this file?'))return;loadProject(next);if($('#welcome').open)$('#welcome').close();note('Opened '+file.name)}catch(err){note('Could not open project: '+err.message,true)}}
 $('#openProject').onclick=openProject;
-$('#fileInput').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>10_000_000)throw Error('Project is too large. Maximum file size is 10 MB.');const next=validateExtended(JSON.parse(await file.text()));if(!p.sample&&!confirm('Replace the current project with this file?'))return;loadProject(next);note('Opened '+file.name)}catch(err){note('Could not open project: '+err.message,true)}e.target.value=''};
+$('#fileInput').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>10_000_000)throw Error('Project is too large. Maximum file size is 10 MB.');const next=validateExtended(JSON.parse(await file.text()));if(!p.sample&&!confirm('Replace the current project with this file?'))return;loadProject(next);if($('#welcome').open)$('#welcome').close();note('Opened '+file.name)}catch(err){note('Could not open project: '+err.message,true)}e.target.value=''};
 const tourSteps=[
  {selector:'#projectBtn',title:'Project menu',description:'Open this menu to see the current project, resume saved work, create a new project, or open an existing .pixel.json file.'},
  {selector:'#save',title:'Save your project',description:'Save downloads an editable .pixel.json file. Your work also autosaves locally in the browser while you edit.'},
