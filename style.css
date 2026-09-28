@@ -747,3 +747,46 @@ button.active{background:#70420a;color:#f6d9a0;border-color:#d4870a}
     max-height:calc(100vh - 30px) !important;
   }
 }
+
+
+/* Small Omarchy endorsement at the bottom of the welcome hero. */
+.welcome-omarchy-branding{
+  position:absolute;
+  left:22px;
+  bottom:12px;
+  z-index:4;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:#f4f7fb;
+  padding:4px 8px 4px 6px;
+  background:rgb(4 8 14 / .52);
+  border:1px solid rgb(255 255 255 / .18);
+  font-family:'SFMono-Regular',Consolas,'Liberation Mono',monospace;
+  font-size:7px;
+  font-weight:700;
+  letter-spacing:1.1px;
+  line-height:1;
+  text-shadow:1px 1px 0 #000;
+  white-space:nowrap;
+  backdrop-filter:blur(2px);
+}
+.welcome-omarchy-logo{
+  width:17px;
+  height:17px;
+  flex:0 0 17px;
+  display:block;
+  color:#f4f7fb;
+}
+@media(max-width:700px){
+  .welcome-omarchy-branding{
+    left:14px;
+    bottom:9px;
+    font-size:6px;
+  }
+  .welcome-omarchy-logo{
+    width:15px;
+    height:15px;
+    flex-basis:15px;
+  }
+}
