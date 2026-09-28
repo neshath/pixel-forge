@@ -238,10 +238,3 @@ Pixel Forge is released under the [MIT License](LICENSE).
 [Repository](https://github.com/neshath/pixel-forge) · [Issues](https://github.com/neshath/pixel-forge/issues) · [License](LICENSE)
 
 </div>
-
-
-## Omarchy theme integration
-
-The Tauri desktop build automatically reads the active Omarchy palette from ~/.local/state/omarchy/current/theme/colors.toml and maps its semantic colors to Pixel Forge UI variables. The palette is refreshed while the app is running, so changing the Omarchy theme is reflected in Pixel Forge without restarting the app.
-
-Hosted browser builds (such as GitHub Pages) cannot read the user's Omarchy filesystem directly. The local Node server build can read the active Omarchy palette through its local `/__pixel-forge/omarchy-colors` endpoint.
