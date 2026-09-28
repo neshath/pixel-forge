@@ -13,11 +13,18 @@ function tauriModules() {
 }
 
 export async function readOmarchyColors() {
-  if (!isDesktop) return null;
-  const invoke = globalThis.__TAURI__?.core?.invoke;
-  if (typeof invoke !== 'function') return null;
+  if (isDesktop) {
+    const invoke = globalThis.__TAURI__?.core?.invoke;
+    if (typeof invoke === 'function') {
+      try {
+        return await invoke('get_omarchy_colors');
+      } catch {}
+    }
+  }
   try {
-    return await invoke('get_omarchy_colors');
+    const response = await fetch('/__pixel-forge/omarchy-colors?t=' + Date.now(), {cache: 'no-store'});
+    if (!response.ok) return null;
+    return await response.text();
   } catch {
     return null;
   }
