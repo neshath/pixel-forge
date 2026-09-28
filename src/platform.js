@@ -12,24 +12,6 @@ function tauriModules() {
   return {open: tauri.dialog.open, save: tauri.dialog.save, readTextFile: tauri.fs.readTextFile, writeTextFile: tauri.fs.writeTextFile};
 }
 
-export async function readOmarchyColors() {
-  if (isDesktop) {
-    const invoke = globalThis.__TAURI__?.core?.invoke;
-    if (typeof invoke === 'function') {
-      try {
-        return await invoke('get_omarchy_colors');
-      } catch {}
-    }
-  }
-  try {
-    const response = await fetch('/__pixel-forge/omarchy-colors?t=' + Date.now(), {cache: 'no-store'});
-    if (!response.ok) return null;
-    return await response.text();
-  } catch {
-    return null;
-  }
-}
-
 export async function openProjectFile(browserInput) {
   if (isDesktop) {
     const {open, readTextFile} = tauriModules();
