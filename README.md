@@ -22,11 +22,15 @@
 
 </div>
 
-Pixel Forge is a **local-first retro game creation studio** for making small 2D games without an account, hosted backend, or heavyweight editor workflow. Draw terrain, place entities, make sprites, import audio, playtest immediately, and export a standalone HTML game.
+Pixel Forge is a **local-first retro game creation studio** for making small 2D games without an account, hosted backend, or heavyweight editor workflow. Draw terrain, place entities, make sprites, import audio, script logic, and export playable HTML games to share with friends.
 
 The browser editor and native Linux desktop app share the same project model, renderer, runtime, and export path.
 
-> **Current status:** The first playable editor/runtime slice is complete. The Tauri desktop shell builds successfully for Linux, and the project is being prepared for real Omarchy/Hyprland validation.
+<p align="center">
+  <img src="pixel-forge-welcome.png" alt="Pixel Forge editor welcome screen" width="960" />
+</p>
+
+> **Current status:** The first playable editor/runtime slice is complete. The Tauri desktop shell builds successfully for Linux, and the project is being prepared for real Omarchy/Hyprland validation and polish.
 
 ```js
 const pixelForge = {
@@ -223,7 +227,7 @@ Pixel Forge is ready for experimentation, prototyping, and early community revie
 
 ## Omarchy community package
 
-An initial Arch/Omarchy package candidate is included under `packaging/omarchy/`, pinned to the verified `main` commit. It is ready for community testing and review; real Omarchy/Hyprland installation testing and upstream package-repository review are still required before describing the package as officially supported.
+An initial Arch/Omarchy package candidate is included under `packaging/omarchy/`, pinned to the verified `main` commit. It is ready for community testing and review; real Omarchy/Hyprland installation and package behavior must still be validated on a live machine.
 
 See [`docs/OMARCHY-CONTRIBUTION.md`](docs/OMARCHY-CONTRIBUTION.md).
 
