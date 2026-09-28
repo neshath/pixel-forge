@@ -145,7 +145,7 @@ Build outputs:
 
 ```text
 src-tauri/target/release/pixel-forge
-src-tauri/target/release/bundle/appimage/Pixel Forge_0.1.0_amd64.AppImage
+src-tauri/target/release/bundle/appimage/Pixel Forge_1.0.1_amd64.AppImage
 src-tauri/target/release/bundle/deb/Pixel Forge_0.1.0_amd64.deb
 ```
 
