@@ -18,19 +18,19 @@
 [![GitHub stars](https://img.shields.io/github/stars/neshath/pixel-forge?style=for-the-badge&logo=github&label=stars&color=f6c453&labelColor=30283a)](https://github.com/neshath/pixel-forge/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/neshath/pixel-forge?style=for-the-badge&logo=git&label=forks&color=a9e45e&labelColor=30283a)](https://github.com/neshath/pixel-forge/network/members)
 [![Open issues](https://img.shields.io/github/issues/neshath/pixel-forge?style=for-the-badge&logo=github&label=issues&color=ec6e88&labelColor=30283a)](https://github.com/neshath/pixel-forge/issues)
-[![Last commit](https://img.shields.io/github/last-commit/neshath/pixel-forge?style=for-the-badge&logo=git&label=updated&color=5ec7d3&labelColor=30283a)](https://github.com/neshath/pixel-forge/commits/main)
+[![Last commit](https://img.shields.io/github/last-commit/neshath/pixel-forge?style=for-the-badge&logo=git&label=updated&color=5ec7d3&labelColor=30283a)](https://github.com/neshath/pixel-forge/commits)
 
 </div>
 
-Pixel Forge is a **local-first retro game creation studio** for making small 2D games without an account, hosted backend, or heavyweight editor workflow. Draw terrain, place entities, make sprites, wire rules, and preview the game instantly.
+Pixel Forge is a **local-first retro game creation studio** for making small 2D games without an account, hosted backend, or heavyweight editor workflow. Draw terrain, place entities, make sprites, and export to play anywhere.
 
 The browser editor and native Linux desktop app share the same project model, renderer, runtime, and export path.
 
-<p align="center">
-  <img src="pixel-forge-welcome.png" alt="Pixel Forge editor welcome screen" width="960" />
-  <br />
-  <img src="Screenshot%20from%202026-09-29%202-50-16.png" alt="Pixel Forge editor startup screen" width="960" />
-</p>
+## Preview
+
+![Pixel Forge editor welcome screen](pixel-forge-welcome.png)
+
+![Pixel Forge editor startup screen](pixel-forge-startup.png)
 
 > **Current status:** The first playable editor/runtime slice is complete. The Tauri desktop shell builds successfully for Linux, and the project is being prepared for real Omarchy/Hyprland validation and community review.
 
