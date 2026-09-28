@@ -32,6 +32,12 @@ The browser editor and native Linux desktop app share the same project model, re
 
 ![Pixel Forge editor startup screen](Screenshot%20from%202026-09-29%2002-50-16.png)
 
+![Pixel Forge screenshot 1](Screenshot%20from%202026-09-29%2003-16-15.png)
+
+![Pixel Forge screenshot 2](Screenshot%20from%202026-09-29%2003-19-25.png)
+
+![Pixel Forge screenshot 3](Screenshot%20from%202026-09-29%2003-19-37.png)
+
 > **Current status:** The first playable editor/runtime slice is complete. The Tauri desktop shell builds successfully for Linux, and the project is being prepared for real Omarchy/Hyprland validation and community review.
 
 ```js
