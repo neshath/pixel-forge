@@ -720,3 +720,30 @@ button.active{background:#70420a;color:#f6d9a0;border-color:#d4870a}
 .welcome-content::-webkit-scrollbar-track{background:#0b111a}
 .welcome-content::-webkit-scrollbar-thumb{background:#49627d}
 .welcome-content::-webkit-scrollbar-thumb:hover{background:#6483a4}
+
+
+/* Definitive splash size override: use the full portrait height visible in the editor. */
+#welcome .welcome-surface{
+  width:900px !important;
+  height:820px !important;
+  max-width:calc(100vw - 40px) !important;
+  max-height:calc(100vh - 40px) !important;
+  aspect-ratio:auto !important;
+}
+#welcome .welcome-art{
+  flex:0 0 315px !important;
+  height:315px !important;
+}
+#welcome .welcome-content{
+  min-height:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+}
+@media(max-width:900px){
+  #welcome .welcome-surface{
+    width:calc(100vw - 30px) !important;
+    height:calc(100vh - 30px) !important;
+    max-width:calc(100vw - 30px) !important;
+    max-height:calc(100vh - 30px) !important;
+  }
+}
