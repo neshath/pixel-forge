@@ -10,7 +10,59 @@
 <section class="asset-panel"><div class="asset-tabs" role="tablist"><button data-tab="tiles" class="active">▦ Tiles</button><button data-tab="entities">♟ Entities</button><button data-tab="sprites">▧ Sprites</button><button data-tab="animation">▤ Animation</button><button data-tab="console">›_ Console</button><button id="collapse" title="Collapse assets" aria-expanded="true">⌄</button><button id="resetLayout" title="Reset panel layout">↺</button><span class="resize-grip asset-resize-grip" title="Drag to resize assets"></span></div><div id="assetBody"><div class="asset-filters"><select id="biome" aria-label="Environment palette"><option value="forest">Moonfern · Forest</option><option value="ice">Frostglass · Ice</option><option value="lava">Embervault · Lava</option><option value="city">Nightwire · City</option></select><input id="assetSearch" placeholder="Search assets…" aria-label="Search assets"><span id="assetCount"></span></div><div id="assets" class="asset-grid"></div></div></section></section>
 <aside class="inspector"><div class="panel-heading">INSPECTOR <button id="collapseRight" class="panel-collapse" title="Collapse inspector panel" aria-expanded="true">›</button><span>◈</span></div><div id="inspection"></div><div class="palette-panel"><div class="panel-heading">WORLD PALETTE <span>16 COLORS</span></div><div id="swatches"></div><div class="palette-footer"><span id="paletteName">Moonfern dusk</span><span>● RGB</span></div></div><div class="inspector-footer"><span class="signal">●</span> All files stay on this device</div></aside>
 <span class="resize-grip left-resize-grip" title="Drag to resize project panel"></span><span class="resize-grip right-resize-grip" title="Drag to resize inspector"></span></main><footer class="statusbar"><span><span class="pink">✦</span> MAKE SOMETHING PLAYABLE.</span><span id="notification" role="status">Ready when you are.</span><span class="omarchy-badge">BUILT FOR OMARCHY</span><span>16 BIT SPIRIT. YOUR WORLD.</span></footer>
-<dialog id="welcome"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form><div class="welcome-logo">▦</div><p class="pink">WELCOME TO PIXEL FORGE</p><h1>Small pixels.<br>Entire worlds.</h1><p>A little workstation for your next big adventure.<br>Draw, build, and jump straight into your game.</p><div class="welcome-actions"><button id="newProject" class="primary">＋ New empty project</button><button id="openProject">▱ Open project</button><button id="sampleProject">▶ Explore the original sample</button><button id="startTour">? Show me around</button></div><div id="recent"></div><small>LOCAL FIRST · NO ACCOUNT · YOUR CREATIONS</small></dialog>
+<dialog id="welcome" class="welcome-dialog" aria-label="Pixel Forge launcher">
+  <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
+  <div class="welcome-surface">
+    <div class="welcome-art" aria-hidden="true">
+      <canvas id="welcomeArtwork" width="1200" height="430"></canvas>
+      <div class="welcome-art-shade"></div>
+      <svg class="welcome-pixel-wordmark" viewBox="0 0 63 8" width="560" height="72" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path d="M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM0 1h1v1h-1zM1 1h1v1h-1zM3 1h1v1h-1zM4 1h1v1h-1zM0 2h1v1h-1zM1 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM0 3h1v1h-1zM1 3h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM0 4h1v1h-1zM1 4h1v1h-1zM0 5h1v1h-1zM1 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM10 0h1v1h-1zM8 1h1v1h-1zM8 2h1v1h-1zM8 3h1v1h-1zM8 4h1v1h-1zM8 5h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM9 6h1v1h-1zM10 6h1v1h-1zM12 0h1v1h-1zM13 0h1v1h-1zM15 0h1v1h-1zM16 0h1v1h-1zM12 1h1v1h-1zM13 1h1v1h-1zM15 1h1v1h-1zM16 1h1v1h-1zM13 2h1v1h-1zM14 2h1v1h-1zM15 2h1v1h-1zM14 3h1v1h-1zM13 4h1v1h-1zM14 4h1v1h-1zM15 4h1v1h-1zM12 5h1v1h-1zM13 5h1v1h-1zM15 5h1v1h-1zM16 5h1v1h-1zM12 6h1v1h-1zM13 6h1v1h-1zM15 6h1v1h-1zM16 6h1v1h-1zM18 0h1v1h-1zM19 0h1v1h-1zM20 0h1v1h-1zM21 0h1v1h-1zM22 0h1v1h-1zM18 1h1v1h-1zM19 1h1v1h-1zM18 2h1v1h-1zM19 2h1v1h-1zM18 3h1v1h-1zM19 3h1v1h-1zM20 3h1v1h-1zM21 3h1v1h-1zM18 4h1v1h-1zM19 4h1v1h-1zM18 5h1v1h-1zM19 5h1v1h-1zM18 6h1v1h-1zM19 6h1v1h-1zM20 6h1v1h-1zM21 6h1v1h-1zM22 6h1v1h-1zM24 0h1v1h-1zM25 0h1v1h-1zM24 1h1v1h-1zM25 1h1v1h-1zM24 2h1v1h-1zM25 2h1v1h-1zM24 3h1v1h-1zM25 3h1v1h-1zM24 4h1v1h-1zM25 4h1v1h-1zM24 5h1v1h-1zM25 5h1v1h-1zM24 6h1v1h-1zM25 6h1v1h-1zM26 6h1v1h-1zM27 6h1v1h-1zM28 6h1v1h-1zM33 0h1v1h-1zM34 0h1v1h-1zM35 0h1v1h-1zM36 0h1v1h-1zM37 0h1v1h-1zM33 1h1v1h-1zM34 1h1v1h-1zM33 2h1v1h-1zM34 2h1v1h-1zM33 3h1v1h-1zM34 3h1v1h-1zM35 3h1v1h-1zM36 3h1v1h-1zM33 4h1v1h-1zM34 4h1v1h-1zM33 5h1v1h-1zM34 5h1v1h-1zM33 6h1v1h-1zM34 6h1v1h-1zM40 0h1v1h-1zM41 0h1v1h-1zM42 0h1v1h-1zM39 1h1v1h-1zM40 1h1v1h-1zM42 1h1v1h-1zM43 1h1v1h-1zM39 2h1v1h-1zM40 2h1v1h-1zM42 2h1v1h-1zM43 2h1v1h-1zM39 3h1v1h-1zM40 3h1v1h-1zM42 3h1v1h-1zM43 3h1v1h-1zM39 4h1v1h-1zM40 4h1v1h-1zM42 4h1v1h-1zM43 4h1v1h-1zM39 5h1v1h-1zM40 5h1v1h-1zM42 5h1v1h-1zM43 5h1v1h-1zM40 6h1v1h-1zM41 6h1v1h-1zM42 6h1v1h-1zM45 0h1v1h-1zM46 0h1v1h-1zM47 0h1v1h-1zM48 0h1v1h-1zM45 1h1v1h-1zM46 1h1v1h-1zM48 1h1v1h-1zM49 1h1v1h-1zM45 2h1v1h-1zM46 2h1v1h-1zM48 2h1v1h-1zM49 2h1v1h-1zM45 3h1v1h-1zM46 3h1v1h-1zM47 3h1v1h-1zM48 3h1v1h-1zM45 4h1v1h-1zM46 4h1v1h-1zM47 4h1v1h-1zM45 5h1v1h-1zM46 5h1v1h-1zM48 5h1v1h-1zM45 6h1v1h-1zM46 6h1v1h-1zM48 6h1v1h-1zM49 6h1v1h-1zM52 0h1v1h-1zM53 0h1v1h-1zM54 0h1v1h-1zM55 0h1v1h-1zM51 1h1v1h-1zM52 1h1v1h-1zM51 2h1v1h-1zM52 2h1v1h-1zM51 3h1v1h-1zM52 3h1v1h-1zM54 3h1v1h-1zM55 3h1v1h-1zM51 4h1v1h-1zM52 4h1v1h-1zM54 4h1v1h-1zM55 4h1v1h-1zM51 5h1v1h-1zM52 5h1v1h-1zM54 5h1v1h-1zM55 5h1v1h-1zM52 6h1v1h-1zM53 6h1v1h-1zM54 6h1v1h-1zM55 6h1v1h-1zM57 0h1v1h-1zM58 0h1v1h-1zM59 0h1v1h-1zM60 0h1v1h-1zM61 0h1v1h-1zM57 1h1v1h-1zM58 1h1v1h-1zM57 2h1v1h-1zM58 2h1v1h-1zM57 3h1v1h-1zM58 3h1v1h-1zM59 3h1v1h-1zM60 3h1v1h-1zM57 4h1v1h-1zM58 4h1v1h-1zM57 5h1v1h-1zM58 5h1v1h-1zM57 6h1v1h-1zM58 6h1v1h-1zM59 6h1v1h-1zM60 6h1v1h-1zM61 6h1v1h-1z" fill="currentColor"/></svg>
+      <div class="welcome-art-subtitle">GAME CREATION SYSTEM</div>
+      <div class="welcome-version">1.2.5</div>
+    </div>
+
+    <div class="welcome-content">
+      <section class="welcome-column welcome-left">
+        <div class="welcome-heading">NEW FILE</div>
+        <div class="welcome-rule"></div>
+        <div class="welcome-actions" id="welcomeActions">
+          <button id="newProject" class="welcome-action primary"><span class="welcome-icon">◫</span><span>New empty project</span></button>
+          <button id="openProject" class="welcome-action"><span class="welcome-icon">▰</span><span>Open project</span></button>
+          <button id="resumeProject" class="welcome-action"><span class="welcome-icon">◔</span><span>Resume last autosave</span></button>
+          <div id="welcomeTemplates"></div>
+          <div id="recent" class="welcome-recent" hidden></div>
+        </div>
+
+        <div class="welcome-heading welcome-heading-spaced">WORKSPACES</div>
+        <div class="welcome-rule"></div>
+        <div class="welcome-workspaces">
+          <button class="welcome-workspace active" data-welcome-mode="world"><span class="welcome-workspace-icon">◉</span><span>World</span></button>
+          <button class="welcome-workspace" data-welcome-mode="sprite"><span class="welcome-workspace-icon">▣</span><span>Sprite</span></button>
+          <button class="welcome-workspace" data-welcome-tab="audio"><span class="welcome-workspace-icon">♫</span><span>Audio</span></button>
+          <button class="welcome-workspace" data-welcome-tab="logic"><span class="welcome-workspace-icon">⚙</span><span>Logic</span></button>
+          <button class="welcome-workspace" data-welcome-tab="market"><span class="welcome-workspace-icon">▤</span><span>Market</span></button>
+          <button class="welcome-workspace" data-welcome-tab="garden"><span class="welcome-workspace-icon">≋</span><span>Water</span></button>
+        </div>
+      </section>
+
+      <section class="welcome-column welcome-right">
+        <div class="welcome-heading">GETTING STARTED</div>
+        <div class="welcome-rule"></div>
+        <button id="manualLink" class="welcome-action"><span class="welcome-icon">▤</span><span>Manual</span></button>
+        <button id="docsLink" class="welcome-action"><span class="welcome-icon">◎</span><span>Pixel Forge Docs</span></button>
+        <button id="sampleProject" hidden>Explore the original sample</button>
+        <button id="startTour" class="welcome-action"><span class="welcome-icon">?</span><span>Show me around</span></button>
+        <button id="welcomeHelp" class="welcome-action"><span class="welcome-icon">⌨</span><span>Help & shortcuts</span></button>
+
+        <div class="welcome-divider"></div>
+        <button id="releaseNotesLink" class="welcome-action"><span class="welcome-icon">▤</span><span>Release Notes</span></button>
+        <button id="githubLink" class="welcome-action"><span class="welcome-icon">●</span><span>GitHub Repo</span></button>
+
+        <div class="welcome-meta"><span>✦</span><span>LOCAL FIRST</span><span>·</span><span>NO ACCOUNT</span><span>·</span><span>YOUR CREATIONS</span></div>
+      </section>
+    </div>
+  </div>
+</dialog>
 <dialog id="tourDialog" class="tour-dialog" aria-labelledby="tourTitle"><div class="tour-kicker">PIXEL FORGE FIELD GUIDE <span id="tourProgress">1 / 1</span></div><h2 id="tourTitle">Welcome to the editor</h2><p id="tourDescription">This guided tour explains the main controls one at a time. You can stop whenever you like.</p><div class="tour-actions"><button id="tourBack" type="button">← Back</button><button id="tourSkip" type="button" class="quiet">Skip tour</button><button id="tourNext" type="button" class="primary">Next →</button></div></dialog>
 <dialog id="helpDialog"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form><h2>Your pocket field guide</h2><p>Paint terrain, place a player and enemy from Entities, then Playtest.</p><div class="shortcut-list"><span>Pencil / Eraser / Select</span><kbd>B / E / V</kbd><span>Fill / Rectangle / Line / Pick</span><kbd>F / R / L / I</kbd><span>Pan canvas</span><kbd>Space + drag</kbd><span>Zoom</span><kbd>Mouse wheel</kbd><span>Grid / Collisions</span><kbd>G / C</kbd><span>Play / Stop</span><kbd>Enter</kbd><span>Undo / Redo</span><kbd>⌘ Z / ⌘ ⇧ Z</kbd><span>Duplicate / Delete entity</span><kbd>⌘ D / Delete</kbd><span>Save project to file</span><kbd>⌘ S</kbd></div><p>In game: arrows or WASD to move, Space to jump, X to attack, Esc to pause, R to restart. Controllers: left stick, A to jump, X to attack.</p><p>Save downloads an editable .pixel.json file. Export creates a standalone playable HTML game. Browser autosaves restore your latest work; larger audio payloads are kept in local IndexedDB rather than localStorage.</p></dialog>
 <input id="fileInput" type="file" accept=".json,.pixel.json" hidden><input id="spriteInput" type="file" accept="image/png" hidden><input id="audioInput" type="file" accept="audio/*" multiple hidden><script type="module" src="src/app.js"></script></body></html>
