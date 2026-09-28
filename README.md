@@ -116,7 +116,7 @@ If WebKitGTK renders a blank or corrupted view, retry with:
 WEBKIT_DISABLE_DMABUF_RENDERER=1 ./src-tauri/target/release/pixel-forge
 ```
 
-Final Wayland/Hyprland validation still needs to happen on a real Omarchy installation. The sandbox validates Linux compilation and X11 launch behavior, but it is not an Omarchy/Hyprland test machine.
+Final Wayland/Hyprland validation still needs to happen on a real Omarchy installation. The sandbox validates Linux compilation and X11 launch behavior, but it is not an Omarchy/Hyprland test environment.
 
 ## ◇ Project and Exchange model
 
@@ -182,7 +182,7 @@ Pixel Forge is ready for experimentation, prototyping, and early community revie
 
 ## Omarchy community package
 
-An initial Arch/Omarchy package candidate is included under `packaging/omarchy/`, pinned to the verified `main` commit. It is ready for community testing and review; real Omarchy/Hyprland installation and package behavior must still be validated on a live machine.
+An initial Arch/Omarchy package candidate is included under `packaging/omarchy/`, pinned to the verified `main` commit. It is ready for community testing and review; real Omarchy/Hyprland installation validation is still required.
 
 See [`docs/OMARCHY-CONTRIBUTION.md`](docs/OMARCHY-CONTRIBUTION.md).
 
