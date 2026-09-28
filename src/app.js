@@ -61,17 +61,8 @@ function applyOmarchyTheme(raw){
 }
 let omarchyThemeReady=false;
 async function refreshOmarchyTheme(){
-  let raw=await readOmarchyColors();
-  if(raw){
-    omarchyThemeReady=applyOmarchyTheme(raw)||omarchyThemeReady;
-    return;
-  }
-  try{
-    const response=await fetch('./omarchy-theme.json?t='+Date.now(),{cache:'no-store'});
-    if(!response.ok)return;
-    const payload=await response.json();
-    if(payload?.colors)applyOmarchyTheme(Object.entries(payload.colors).map(([k,v])=>k+' = "'+v+'"').join('\\n'));
-  }catch{}
+  const raw=await readOmarchyColors();
+  if(raw)omarchyThemeReady=applyOmarchyTheme(raw)||omarchyThemeReady;
 }
 void refreshOmarchyTheme();
 setInterval(()=>{void refreshOmarchyTheme()},2500);
